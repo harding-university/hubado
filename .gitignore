@@ -1,0 +1,17 @@
+Makefile.local
+
+Dockerfile
+footer.groovy
+
+*.war
+*.trz
+campus-*.jpg
+artifacts/*
+vendor/*
+volumes/*
+
+contexts/*/*.jar
+contexts/*/*.sh
+contexts/*/*.xml
+
+*.swp

@@ -1,0 +1,10 @@
+[Unit]
+Requires=hubado.service
+After=hubado.service
+
+[Timer]
+# See `man systemd.time` for format
+OnCalendar=21:00
+
+[Install]
+WantedBy=timers.target

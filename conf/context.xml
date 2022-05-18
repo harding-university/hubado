@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <ResourceLink
+        global="jdbc/bannerDataSource"
+        name="jdbc/bannerDataSource"
+        type="javax.sql.DataSource"
+    />
+
+    <ResourceLink
+        global="jdbc/bannerSsbDataSource"
+        name="jdbc/bannerSsbDataSource"
+        type="javax.sql.DataSource"
+    />
+</Context>

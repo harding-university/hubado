@@ -1,0 +1,33 @@
+FROM tomcat:8.5-jre8-openjdk
+
+ENV TZ=^TIMEZONE^
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+COPY ["ojdbc8.jar", "/usr/local/tomcat/lib/"]
+COPY ["xdb6.jar", "/usr/local/tomcat/lib/"]
+
+COPY ["context.xml", "/usr/local/tomcat/conf/"]
+COPY ["server.xml", "/usr/local/tomcat/conf/"]
+
+WORKDIR /usr/local/tomcat/webapps
+COPY ["BannerExtensibility.war", "."]
+RUN unzip BannerExtensibility.war -d BannerExtensibility
+RUN rm BannerExtensibility.war
+
+WORKDIR /usr/local/tomcat/webapps/BannerExtensibility/WEB-INF/classes/
+RUN sed -i "s/^ *authenticationProvider.*=.*/authenticationProvider='cas'/" BannerExtensibility_configuration.groovy
+RUN sed -i "s/^ *active.*=.*/active=true/" BannerExtensibility_configuration.groovy
+RUN sed -i "s/^ *serverUrlPrefix.*=.*/serverUrlPrefix='\${cas.url}'/" BannerExtensibility_configuration.groovy
+RUN sed -i "s/^ *serviceUrl.*=.*/serviceUrl='\${banner9.root}\/BannerExtensibility\/login\/cas'/" BannerExtensibility_configuration.groovy
+RUN sed -i "s/^ *serverName.*=.*/serverName='\${banner9.root}'/" BannerExtensibility_configuration.groovy
+RUN sed -i "s/^ *proxyCallbackUrl.*=.*/proxyCallbackUrl='\${banner9.root}\/BannerExtensibility\/secure\/receptor'/" BannerExtensibility_configuration.groovy
+RUN sed -i "s/^ *afterLogoutUrl.*=.*/afterLogoutUrl='\${cas.url}\/logout\?url=\${banner9.root}\/BannerExtensibility\/'/" BannerExtensibility_configuration.groovy
+RUN sed -i "s/^ *grails\.plugin\.springsecurity\.homePageUrl.*=.*/grails\.plugin\.springsecurity\.homePageUrl='\${banner9.root}\/BannerExtensibility'/" BannerExtensibility_configuration.groovy
+RUN sed -i "s/^ *targetServer.*=.*/targetServer=\"tomcat\"/" BannerExtensibility_configuration.groovy
+
+WORKDIR /usr/local/tomcat/
+COPY ["setenv.sh", "bin/setenv.sh"]
+
+RUN useradd tomcat
+RUN chown -R tomcat.tomcat /usr/local/tomcat
+USER tomcat

@@ -1,0 +1,74 @@
+services:
+    # Proxy
+    haproxy:
+        build:
+            context: contexts/haproxy
+        ports:
+            - "80:8080"
+            - "443:8443"
+        volumes:
+            - ./volumes/ssl:/usr/local/etc/haproxy/ssl
+
+    # Tomcat servers
+    accessmgmt:
+        build:
+            context: contexts/accessmgmt
+        volumes:
+          - ./volumes/tomcat-env:/tomcat-env
+
+    admincommon:
+        build:
+            context: contexts/admincommon
+        volumes:
+          - ./volumes/tomcat-env:/tomcat-env
+
+    appnav:
+        build:
+            context: contexts/appnav
+        volumes:
+          - ./volumes/tomcat-env:/tomcat-env
+
+    bcm:
+        build:
+            context: contexts/bcm
+        volumes:
+          - ./volumes/tomcat-env:/tomcat-env
+
+    extz:
+        build:
+            context: contexts/extz
+        volumes:
+          - ./volumes/tomcat-env:/tomcat-env
+
+    # Jenkins
+    jenkins:
+        build:
+            context: contexts/jenkins
+        volumes:
+          - /media:/media
+          - ./volumes/jenkins/start.sh:/opt/jenkins/start.sh:ro
+          - ./volumes/jenkins/wgetrc:/home/jenkins/.wgetrc:ro
+          - ./volumes/jenkins/war:/war
+
+    # Monitoring
+   # prometheus:
+   #     image: prom/prometheus
+   #     ports:
+   #       - "9090:9090"
+   #     volumes:
+   #       - ./conf/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+   #       - /prometheus
+
+   # cadvisor:
+   #     image: gcr.io/cadvisor/cadvisor:latest
+   #     volumes:
+   #         - /:/rootfs:ro
+   #         - /var/run:/var/run:rw
+   #         - /sys:/sys:ro
+   #         - /var/lib/docker/:/var/lib/docker:ro
+
+   # grafana:
+   #     image: grafana/grafana
+   #     volumes:
+   #       - /etc/grafana/
+   #       - /var/lib/grafana

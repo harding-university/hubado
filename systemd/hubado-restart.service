@@ -1,0 +1,6 @@
+[Unit]
+Description=Restart hubado (but only if it's running)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl try-restart hubado.service

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Server>
+    <Listener className="org.apache.catalina.startup.VersionLoggerListener" />
+    <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
+    <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+    <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
+
+
+    <GlobalNamingResources>
+        <Resource
+            name="jdbc/bannerDataSource"
+            auth="Container"
+            type="javax.sql.DataSource"
+            driverClassName="oracle.jdbc.OracleDriver"
+            url="jdbc:oracle:thin:@//${oracle.host}/${oracle.service_name}"
+            username="${banner9.proxy.user}"
+            password="${banner9.proxy.password}"
+            initialSize="25"
+            maxTotal="1000"
+            maxIdle="-1"
+            maxWaitMillis="30000"
+            connectionProperties="defaultRowPrefetch=100"
+            validationQuery="select 1 from dual"
+            accessToUnderlyingConnectionAllowed="true"
+            removeAbandonedOnBorrow="true"
+            removeAbandonedTimeout="3000"
+            testOnBorrow="true"
+        />
+
+        <Resource
+            name="jdbc/bannerSsbDataSource"
+            auth="Container"
+            type="javax.sql.DataSource"
+            driverClassName="oracle.jdbc.OracleDriver"
+            url="jdbc:oracle:thin:@//${oracle.host}/${oracle.service_name}"
+            username="${banner9.connection.user}"
+            password="${banner9.connection.password}"
+            initialSize="25"
+            maxTotal="1000"
+            maxIdle="-1"
+            maxWaitMillis="30000"
+            connectionProperties="defaultRowPrefetch=100"
+            validationQuery="select 1 from dual"
+            accessToUnderlyingConnectionAllowed="true"
+            removeAbandonedOnBorrow="true"
+            removeAbandonedTimeout="60"
+            testOnBorrow="true"
+        />
+    </GlobalNamingResources>
+
+    <Service name="Catalina">
+        <Connector
+            port="8080"
+            protocol="HTTP/1.1"
+            secure="true"
+            scheme="https"
+            proxyPort="443"
+            maxThreads="500"
+            acceptorThreadCount="4"
+            connectionTimeout="20000"
+            redirectPort="8443"
+        />
+
+        <Engine name="Catalina" defaultHost="localhost">
+            <Host name="localhost">
+                <Valve
+                    className="org.apache.catalina.valves.AccessLogValve"
+                    directory="logs"
+                    prefix="localhost_access_log"
+                    suffix=".txt"
+                    pattern="common"
+                />
+            </Host>
+        </Engine>
+    </Service>
+</Server>

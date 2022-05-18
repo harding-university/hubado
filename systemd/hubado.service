@@ -1,0 +1,14 @@
+[Unit]
+Description=Banner Docker environment
+Requires=docker.service network-online.target
+After=docker.service network-online.target
+
+[Service]
+WorkingDirectory=/opt/hubado
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/make up
+ExecStop=/usr/bin/make down
+
+[Install]
+WantedBy=multi-user.target

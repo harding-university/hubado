@@ -1,0 +1,26 @@
+BANNER9_ROOT = https://banner.example.edu
+BANNER9_PROXY_USER = banproxy
+BANNER9_PROXY_PASSWORD = password
+BANNER9_CONNECTION_USER = ban_ss_user
+BANNER9_CONNECTION_PASSWORD = password
+BANNER9_SESSION_TIMEOUT = 60
+
+ORACLE_HOST = oracle.example.edu
+ORACLE_SID = BANN
+ORACLE_SERVICE_NAME = bann.example.edu
+
+CAS_URL = https://login.example.edu
+CAS_LOGOUT_URL = https://login.example.edu/logout?url=https://banner.example.edu
+
+JENKINS_URL = https://esm.example.edu:8080
+JENKINS_NODE = HUBADO
+JENKINS_SECRET = secret
+
+ESM_WGET_USER = scripting
+ESM_WGET_PASSWORD = password
+
+HUBADO_HOST_USER = hubado
+
+TIMEZONE = America/Chicago
+
+INSTITUTION_NAME = Hubado University

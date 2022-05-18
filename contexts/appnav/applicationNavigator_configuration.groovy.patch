@@ -1,0 +1,44 @@
+56c56
+< ssbEnabled = false
+---
+> ssbEnabled = true
+79c79
+<     authenticationProvider = 'default'
+---
+>     authenticationProvider = 'cas'
+97c97
+< grails.plugin.springsecurity.logout.afterLogoutUrl = 'http://APPLICATION_NAVIGATOR_HOST:PORT/applicationNavigator/logout/customLogout'
+---
+> grails.plugin.springsecurity.logout.afterLogoutUrl = '${cas.logouturl}'
+107c107
+< grails.plugin.springsecurity.homePageUrl='http://APPLICATION_NAVIGATOR_HOST:PORT/applicationNavigator/'
+---
+> grails.plugin.springsecurity.homePageUrl='${banner9.root}/applicationNavigator'
+120,123c120,123
+<                 active           = false
+<                 serviceUrl       = 'http://APPLICATION_NAVIGATOR_HOST:PORT/applicationNavigator/login/cas'
+<                 serverName       = 'http://APPLICATION_NAVIGATOR_HOST:PORT'
+<                 proxyCallbackUrl = 'http://APPLICATION_NAVIGATOR_HOST:PORT/applicationNavigator/secure/receptor'
+---
+>                 active           = true
+>                 serviceUrl       = '${banner9.root}/applicationNavigator/login/cas'
+>                 serverName       = '${banner9.root}'
+>                 proxyCallbackUrl = '${banner9.root}/applicationNavigator/secure/receptor'
+142c142
+< grails.plugin.springsecurity.cas.serverUrlPrefix = "https://CAS_HOST:PORT/cas"
+---
+> grails.plugin.springsecurity.cas.serverUrlPrefix = '${cas.url}'
+186,187c186,187
+<         "http://APPLICATION_NAVIGATOR_HOST:PORT/applicationNavigator/commonMenu",
+<         "http://APPLICATION_NAVIGATOR_HOST:PORT/applicationNavigator/commonSelfServiceMenu"
+---
+>         '${banner9.root}/applicationNavigator/commonMenu',
+>         '${banner9.root}/applicationNavigator/commonSelfServiceMenu'
+215c215
+< seamless.brandTitle=["Default": "Ellucian University"]
+---
+> seamless.brandTitle=["Default": "${INSTITUTION_NAME}"]
+299c299
+< targetServer="weblogic"
+---
+> targetServer="tomcat"
