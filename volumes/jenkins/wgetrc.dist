@@ -1,0 +1,3 @@
+http_user=^ESM_WGET_USER^
+http_password=^ESM_WGET_PASSWORD^
+auth-no-challenge=on
