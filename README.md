@@ -29,7 +29,7 @@ released under the [MIT license](LICENSE).*
 ## Quick start
 
 *Note: this description ignores the Jenkins container and ESM integration, which
-is being removed but is required for the moment.*
+is being removed but is required for the moment (see [issue #1](https://github.com/harding-university/hubado/issues/1)).*
 
 On a Linux server, do the following:
 
