@@ -6,6 +6,7 @@ VPATH = conf vendor volumes/jenkins/war artifacts/
 
 
 APPNAV_ARTIFACT = application-navigator-30600u.trz
+BCM_ARTIFACT = communication-management-90704u.trz
 
 
 DOCKER_COMPOSE = docker compose
@@ -32,7 +33,7 @@ CONTEXTS_WAR_PREREQS = \
 	contexts/admincommon/BannerAdmin.war \
 	contexts/admincommon/BannerAdmin.ws.war \
 	contexts/appnav/$(APPNAV_ARTIFACT) \
-	contexts/bcm/CommunicationManagement.war \
+	contexts/bcm/$(BCM_ARTIFACT) \
 	contexts/extz/BannerExtensibility.war \
 
 CONTEXTS_ADDITIONAL_PREREQS = \

@@ -1,3 +1,25 @@
+FROM openjdk:8 as builder
+
+WORKDIR /build
+COPY ["*.trz", "artifact.tar.gz"]
+RUN tar -xzf artifact.tar.gz && \
+    unzip */java/*.zip -d release
+
+WORKDIR /build/release/installer
+RUN chmod +x ant && \
+    ./ant && \
+    echo resource.SharedConfigurationHome.default=/build/shared > installer-store.properties && \
+    echo resource.ModuleHome.default=/build/app >> installer-store.properties && \
+    bin/install home
+
+WORKDIR /build/app/current/instance/config
+
+WORKDIR /build/app/current/installer
+RUN chmod +x ant && \
+    ./ant && \
+    bin/systool war
+
+
 FROM tomcat:8.5-jre8-openjdk
 
 ENV TZ=^TIMEZONE^
@@ -9,7 +31,7 @@ COPY ["context.xml", "/usr/local/tomcat/conf/"]
 COPY ["server.xml", "/usr/local/tomcat/conf/"]
 
 WORKDIR /usr/local/tomcat/webapps
-COPY ["CommunicationManagement.war", "."]
+COPY --from=builder /build/app/current/dist/CommunicationManagement-*.war CommunicationManagement.war
 RUN unzip CommunicationManagement.war -d CommunicationManagement
 RUN rm CommunicationManagement.war
 
