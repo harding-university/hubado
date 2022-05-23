@@ -13,6 +13,15 @@ RUN chmod +x ant && \
     bin/install home
 
 WORKDIR /build/app/current/instance/config
+RUN sed -i "s/^\s*authenticationProvider.*=.*/authenticationProvider='cas'/" CommunicationManagement_configuration.groovy && \
+    sed -i "s/^\s*active.*=.*/active=true/" CommunicationManagement_configuration.groovy && \
+    sed -i "s/^\s*serverUrlPrefix.*=.*/serverUrlPrefix='\${cas.url}'/" CommunicationManagement_configuration.groovy && \
+    sed -i "s/^\s*serviceUrl.*=.*/serviceUrl='\${banner9.root}\/CommunicationManagement\/login\/cas'/" CommunicationManagement_configuration.groovy && \ 
+    sed -i "s/^\s*serverName.*=.*/serverName='\${banner9.root}'/" CommunicationManagement_configuration.groovy && \
+    sed -i "s/^\s*proxyCallbackUrl.*=.*/proxyCallbackUrl='\${banner9.root}\/CommunicationManagement\/secure\/receptor'/" CommunicationManagement_configuration.groovy && \
+    sed -i "s/^\s*afterLogoutUrl.*=.*/afterLogoutUrl='\${cas.url}\/logout\?url=\${banner9.root}\/CommunicationManagement\/'/" CommunicationManagement_configuration.groovy && \
+    sed -i "s/^\s*grails\.plugin\.springsecurity\.homePageUrl.*=.*/grails\.plugin\.springsecurity\.homePageUrl='\${banner9.root}\/'/" CommunicationManagement_configuration.groovy && \
+    sed -i "s/^\s*targetServer.*=.*/targetServer=\"tomcat\"/" CommunicationManagement_configuration.groovy
 
 WORKDIR /build/app/current/installer
 RUN chmod +x ant && \
@@ -26,29 +35,15 @@ ENV TZ=^TIMEZONE^
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 COPY ["ojdbc8.jar", "/usr/local/tomcat/lib/"]
-
 COPY ["context.xml", "/usr/local/tomcat/conf/"]
 COPY ["server.xml", "/usr/local/tomcat/conf/"]
+COPY ["setenv.sh", "/usr/local/tomcat/bin/setenv.sh"]
 
 WORKDIR /usr/local/tomcat/webapps
 COPY --from=builder /build/app/current/dist/CommunicationManagement-*.war CommunicationManagement.war
-RUN unzip CommunicationManagement.war -d CommunicationManagement
-RUN rm CommunicationManagement.war
+RUN unzip CommunicationManagement.war -d CommunicationManagement && \
+    rm CommunicationManagement.war
 
-WORKDIR /usr/local/tomcat/webapps/CommunicationManagement/WEB-INF/classes/
-RUN sed -i "s/^\s*authenticationProvider.*=.*/authenticationProvider='cas'/" CommunicationManagement_configuration.groovy
-RUN sed -i "s/^\s*active.*=.*/active=true/" CommunicationManagement_configuration.groovy
-RUN sed -i "s/^\s*serverUrlPrefix.*=.*/serverUrlPrefix='\${cas.url}'/" CommunicationManagement_configuration.groovy
-RUN sed -i "s/^\s*serviceUrl.*=.*/serviceUrl='\${banner9.root}\/CommunicationManagement\/login\/cas'/" CommunicationManagement_configuration.groovy
-RUN sed -i "s/^\s*serverName.*=.*/serverName='\${banner9.root}'/" CommunicationManagement_configuration.groovy
-RUN sed -i "s/^\s*proxyCallbackUrl.*=.*/proxyCallbackUrl='\${banner9.root}\/CommunicationManagement\/secure\/receptor'/" CommunicationManagement_configuration.groovy
-RUN sed -i "s/^\s*afterLogoutUrl.*=.*/afterLogoutUrl='\${cas.url}\/logout\?url=\${banner9.root}\/CommunicationManagement\/'/" CommunicationManagement_configuration.groovy
-RUN sed -i "s/^\s*grails\.plugin\.springsecurity\.homePageUrl.*=.*/grails\.plugin\.springsecurity\.homePageUrl='\${banner9.root}\/'/" CommunicationManagement_configuration.groovy
-RUN sed -i "s/^\s*targetServer.*=.*/targetServer=\"tomcat\"/" CommunicationManagement_configuration.groovy
-
-WORKDIR /usr/local/tomcat/
-COPY ["setenv.sh", "bin/setenv.sh"]
-
-RUN useradd tomcat
-RUN chown -R tomcat.tomcat /usr/local/tomcat
+RUN useradd tomcat && \
+    chown -R tomcat.tomcat /usr/local/tomcat
 USER tomcat
