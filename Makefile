@@ -1,4 +1,4 @@
-# Needed to use variables in prereqs, such as for the `context` target
+# Needed to use variables in prereqs, such as for the `contexts` target
 .SECONDEXPANSION:
 
 # Directories to copy files from (general make feature, not specific to this file)
@@ -97,6 +97,13 @@ contexts: $(LOCAL_FILES)
 
 # This rule says to copy any prereq within contexts/ from the `VPATH` directories 
 contexts/%: $$(notdir %)
+	cp $< $@
+
+# This is a variation of the above rule, for .trz files; it clears out
+# the old .trz before copying in the new one, and is needed for when
+# the artifact definitions like APPNAV_ARTIFACT change
+contexts/%.trz: $$(notdir %).trz
+	rm -f $(dir $@)*.trz
 	cp $< $@
 
 
