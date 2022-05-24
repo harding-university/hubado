@@ -44,6 +44,7 @@ COPY --from=builder /build/app/current/dist/CommunicationManagement-*.war Commun
 RUN unzip CommunicationManagement.war -d CommunicationManagement && \
     rm CommunicationManagement.war
 
+WORKDIR /usr/local/tomcat/
 RUN useradd tomcat && \
     chown -R tomcat.tomcat /usr/local/tomcat
 USER tomcat
