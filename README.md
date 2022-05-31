@@ -17,6 +17,7 @@ released under the [MIT license](LICENSE).*
 -   Standardize your Tomcat configuration across components and environments
 -   Single-command startups, shutdowns, and restarts of the entire environment,
     with optional scripts provided for automating restarts
+-   Single-command update of all Tomcat servers in environment
 -   Collaborate with other universities on configuration
 -   Supported Banner components:
     -   Application Navigator

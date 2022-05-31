@@ -68,6 +68,10 @@ images: contexts
 	$(DOCKER_COMPOSE) build
 
 
+update-images: contexts
+	$(DOCKER_COMPOSE) build --pull
+
+
 up: volumes
 	$(DOCKER_COMPOSE) up -d
 
