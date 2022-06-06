@@ -25,6 +25,7 @@ released under the [MIT license](LICENSE).*
     -   Extensibility
     -   Communication Management
     -   Access Management
+    -   Ellucian Ethos API Management Center
     -   ...and more to come!
 
 ## Quick start
