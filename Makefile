@@ -7,6 +7,7 @@ VPATH = conf vendor volumes/jenkins/war artifacts/
 
 APPNAV_ARTIFACT = application-navigator-30600u.trz
 BCM_ARTIFACT = communication-management-90704u.trz
+EEAMC_ARTIFACT = ethos-api-management-center-10100u.trz
 EXTZ_ARTIFACT = banner-extensibility-91000u.trz
 
 
@@ -19,6 +20,7 @@ TOMCATS = \
 	admincommon \
 	appnav \
 	bcm \
+	eeamc \
 	extz \
 
 # List of stock tomcat prereqs, given to every tomcat context
@@ -33,6 +35,7 @@ CONTEXTS_WAR_PREREQS = \
 	contexts/accessmgmt/BannerAccessMgmt.ws.war \
 	contexts/admincommon/BannerAdmin.war \
 	contexts/admincommon/BannerAdmin.ws.war \
+	contexts/eeamc/$(EEAMC_ARTIFACT) \
 	contexts/appnav/$(APPNAV_ARTIFACT) \
 	contexts/bcm/$(BCM_ARTIFACT) \
 	contexts/extz/$(EXTZ_ARTIFACT) \
@@ -45,6 +48,7 @@ LOCAL_FILES = \
 	contexts/admincommon/Dockerfile \
 	contexts/appnav/Dockerfile \
 	contexts/bcm/Dockerfile \
+	contexts/eeamc/Dockerfile \
 	contexts/extz/Dockerfile \
 	contexts/jenkins/Dockerfile \
 	volumes/jenkins/wgetrc \
