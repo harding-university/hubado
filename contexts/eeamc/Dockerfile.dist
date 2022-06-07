@@ -27,6 +27,9 @@ FROM tomcat:8.5-jre8-openjdk
 ENV TZ=^TIMEZONE^
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+RUN mkdir /usr/local/tomcat/eeamc_conf
+ENV ELLUCIAN_AMC_CONFIG_DIR=/usr/local/tomcat/eeamc_conf
+
 COPY ["ojdbc8.jar", "/usr/local/tomcat/lib/"]
 COPY ["context.xml", "/usr/local/tomcat/conf/"]
 COPY ["server.xml", "/usr/local/tomcat/conf/"]
