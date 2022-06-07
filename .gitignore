@@ -2,6 +2,7 @@ Makefile.local
 
 Dockerfile
 footer.groovy
+conf/bep_rabbitmq.env
 
 *.war
 *.trz

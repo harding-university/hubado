@@ -34,6 +34,20 @@ services:
         volumes:
           - ./volumes/tomcat-env:/tomcat-env
 
+    bep:
+        build:
+            context: contexts/bep
+        depends_on:
+          - bep_rabbitmq
+        volumes:
+          - ./volumes/tomcat-env:/tomcat-env
+    bep_rabbitmq:
+        image: rabbitmq
+        hostname: bep_rabbitmq
+        env_file: conf/bep_rabbitmq.env
+        volumes:
+          - ./volumes/bep_rabbitmq:/var/lib/rabbitmq
+
     eeamc:
         build:
             context: contexts/eeamc

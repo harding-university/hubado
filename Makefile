@@ -7,6 +7,7 @@ VPATH = conf vendor volumes/jenkins/war artifacts/
 
 APPNAV_ARTIFACT = application-navigator-30600u.trz
 BCM_ARTIFACT = communication-management-90704u.trz
+BEP_ARTIFACT = banner-event-publisher-90700u.trz
 EEAMC_ARTIFACT = ethos-api-management-center-10100u.trz
 EXTZ_ARTIFACT = banner-extensibility-91000u.trz
 
@@ -20,6 +21,7 @@ TOMCATS = \
 	admincommon \
 	appnav \
 	bcm \
+	bep \
 	eeamc \
 	extz \
 
@@ -38,16 +40,19 @@ CONTEXTS_WAR_PREREQS = \
 	contexts/eeamc/$(EEAMC_ARTIFACT) \
 	contexts/appnav/$(APPNAV_ARTIFACT) \
 	contexts/bcm/$(BCM_ARTIFACT) \
+	contexts/bep/$(BEP_ARTIFACT) \
 	contexts/extz/$(EXTZ_ARTIFACT) \
 
 CONTEXTS_ADDITIONAL_PREREQS = \
 	contexts/extz/xdb6.jar \
 
 LOCAL_FILES = \
+	conf/bep_rabbitmq.env \
 	contexts/accessmgmt/Dockerfile \
 	contexts/admincommon/Dockerfile \
 	contexts/appnav/Dockerfile \
 	contexts/bcm/Dockerfile \
+	contexts/bep/Dockerfile \
 	contexts/eeamc/Dockerfile \
 	contexts/extz/Dockerfile \
 	contexts/jenkins/Dockerfile \
@@ -138,6 +143,11 @@ $(LOCAL_FILES): $$(@).dist Makefile.local
 	@sed -i "s/\^HUBADO_HOST_UID\^/`id -u $(HUBADO_HOST_USER)`/" $@
 	@sed -i "s,\^TIMEZONE\^,$(TIMEZONE)," $@
 	@sed -i "s/\^INSTITUTION_NAME\^/$(INSTITUTION_NAME)/" $@
+	@sed -i "s/\^BEP_RABBITMQ_USER\^/$(BEP_RABBITMQ_USER)/" $@
+	@sed -i "s/\^BEP_RABBITMQ_PASSWORD\^/$(BEP_RABBITMQ_PASSWORD)/" $@
+	@sed -i "s/\^BEP_RABBITMQ_ENCRYPTED_PASSWORD\^/$(BEP_RABBITMQ_ENCRYPTED_PASSWORD)/" $@
+	@sed -i "s/\^EVENTS_PASSWORD\^/$(EVENTS_PASSWORD)/" $@
+	@sed -i "s/\^CDCADMIN_PASSWORD\^/$(CDCADMIN_PASSWORD)/" $@
 
 
 # User to use inside containers
