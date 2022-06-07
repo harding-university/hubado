@@ -19,13 +19,13 @@ RUN sed -i "s/^\s*host = \"rabbitmqHost\"/host=\"bep_rabbitmq\"/" BannerEventPub
     sed -i "s/^\s*password = \"#UPDATEME#\"/password=\"\${bep_rabbitmq.password}\"/" BannerEventPublisher_configuration.groovy && \
     sed -i "s/^\s*authenticationProvider.*=.*/authenticationProvider='cas'/" BannerEventPublisher_configuration.groovy && \
     sed -i "s/^\s*active.*=.*/active=true/" BannerEventPublisher_configuration.groovy && \
-    sed -i "s/^\s*serverUrlPrefix.*=.*/serverUrlPrefix='\${cas.url}'/" BannerEventPublisher_configuration.groovy && \
     sed -i "s/^\s*serviceUrl.*=.*/serviceUrl='\${banner9.root}\/BannerEventPublisher\/login\/cas'/" BannerEventPublisher_configuration.groovy && \ 
     sed -i "s/^\s*serverName.*=.*/serverName='\${banner9.root}'/" BannerEventPublisher_configuration.groovy && \
     sed -i "s/^\s*proxyCallbackUrl.*=.*/proxyCallbackUrl='\${banner9.root}\/BannerEventPublisher\/secure\/receptor'/" BannerEventPublisher_configuration.groovy && \
     sed -i "s/^\s*afterLogoutUrl.*=.*/afterLogoutUrl='\${cas.url}\/logout\?url=\${banner9.root}\/BannerEventPublisher\/'/" BannerEventPublisher_configuration.groovy && \
     sed -i "s/^\s*grails\.plugin\.springsecurity\.homePageUrl.*=.*/grails\.plugin\.springsecurity\.homePageUrl='\${banner9.root}\/'/" BannerEventPublisher_configuration.groovy && \
-    sed -i "s/^\s*targetServer.*=.*/targetServer=\"tomcat\"/" BannerEventPublisher_configuration.groovy
+    sed -i "s/^\s*targetServer.*=.*/targetServer=\"tomcat\"/" BannerEventPublisher_configuration.groovy && \
+    sed -i "s/^grails.plugin.springsecurity.cas.serverUrlPrefix.*/grails.plugin.springsecurity.cas.serverUrlPrefix='\${cas.url}'/" BannerEventPublisher_configuration.groovy
 
 WORKDIR /build/app/current/installer
 RUN chmod +x ant && \
