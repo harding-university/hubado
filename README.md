@@ -25,7 +25,8 @@ released under the [MIT license](LICENSE).*
     -   Extensibility
     -   Communication Management
     -   Access Management
-    -   Ellucian Ethos API Management Center
+    -   Ellucian Ethos API Management Center (beta)
+    -   Banner Event Publisher (beta)
     -   ...and more to come!
 
 ## Quick start
