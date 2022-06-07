@@ -51,4 +51,4 @@ RUN unzip BannerEventPublisher.war -d BannerEventPublisher && \
 WORKDIR /usr/local/tomcat/
 RUN useradd tomcat && \
     chown -R tomcat.tomcat /usr/local/tomcat
-#USER tomcat
+USER tomcat
