@@ -5,11 +5,11 @@
 VPATH = conf vendor volumes/jenkins/war artifacts/
 
 
-APPNAV_ARTIFACT = application-navigator-30600u.trz
-BCM_ARTIFACT = communication-management-90704u.trz
-BEP_ARTIFACT = banner-event-publisher-90700u.trz
+APPNAV_ARTIFACT = application-navigator-30700u.trz
+BCM_ARTIFACT = communication-management-90705u.trz
+BEP_ARTIFACT = banner-event-publisher-90800u.trz
 EEAMC_ARTIFACT = ethos-api-management-center-10100u.trz
-EXTZ_ARTIFACT = banner-extensibility-91000u.trz
+EXTZ_ARTIFACT = banner-extensibility-91001u.trz
 
 
 DOCKER_COMPOSE = docker compose
