@@ -168,6 +168,13 @@ clean:
 	rm -f $(LOCAL_FILES)
 
 
-.PHONY: down clean contexts images usage
+prune:
+	docker container prune -f
+	docker volume prune -f
+	docker network prune -f
+	docker image prune -f
+	docker system prune -f
+
+.PHONY: down clean contexts images usage prune
 
 # vim: set noexpandtab sts=0:
