@@ -49,3 +49,13 @@ WORKDIR /usr/local/tomcat/
 RUN useradd tomcat && \
     chown -R tomcat.tomcat /usr/local/tomcat
 USER tomcat
+
+# Temporary patch for CVE-2022-35912, see https://grails.org/blog/2022-07-18-rce-vulnerability.html
+RUN mkdir /tmp/grails
+WORKDIR /tmp/grails
+RUN wget https://github.com/grails/grails-core/releases/download/v3.3.15/grails-3.3.15.zip
+RUN unzip grails-3.3.15.zip
+RUN rm /usr/local/tomcat/webapps/BannerExtensibility/WEB-INF/lib/grails*-3.3.11.jar
+RUN mv grails-3.3.15/dist/*.jar /usr/local/tomcat/webapps/BannerExtensibility/WEB-INF/lib
+WORKDIR /usr/local/tomcat/
+RUN rm -fr /tmp/grails
