@@ -65,7 +65,7 @@ services:
         build:
             context: contexts/jenkins
         volumes:
-          - /media:/media
+          - /mnt/deploy:/deploy
           - ./volumes/jenkins/start.sh:/opt/jenkins/start.sh:ro
           - ./volumes/jenkins/wgetrc:/home/jenkins/.wgetrc:ro
           - ./volumes/jenkins/war:/war
