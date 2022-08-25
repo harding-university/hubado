@@ -5,13 +5,6 @@
 VPATH = conf vendor volumes/jenkins/war artifacts/
 
 
-APPNAV_ARTIFACT = application-navigator-30700u.trz
-BCM_ARTIFACT = communication-management-90705u.trz
-BEP_ARTIFACT = banner-event-publisher-90800u.trz
-EEAMC_ARTIFACT = ethos-api-management-center-10100u.trz
-EXTZ_ARTIFACT = banner-extensibility-91001u.trz
-
-
 DOCKER_COMPOSE = docker compose
 
 
@@ -37,11 +30,11 @@ CONTEXTS_WAR_PREREQS = \
 	contexts/accessmgmt/BannerAccessMgmt.ws.war \
 	contexts/admincommon/BannerAdmin.war \
 	contexts/admincommon/BannerAdmin.ws.war \
-	contexts/eeamc/$(EEAMC_ARTIFACT) \
-	contexts/appnav/$(APPNAV_ARTIFACT) \
-	contexts/bcm/$(BCM_ARTIFACT) \
-	contexts/bep/$(BEP_ARTIFACT) \
-	contexts/extz/$(EXTZ_ARTIFACT) \
+	contexts/eeamc/ethosapimanagementcenter.war \
+	contexts/appnav/applicationNavigator.war \
+	contexts/bcm/CommunicationManagement.war \
+	contexts/bep/BannerEventPublisher.war \
+	contexts/extz/BannerExtensibility.war \
 
 CONTEXTS_ADDITIONAL_PREREQS = \
 	contexts/extz/xdb6.jar \
@@ -110,13 +103,6 @@ contexts: $(LOCAL_FILES)
 
 # This rule says to copy any prereq within contexts/ from the `VPATH` directories 
 contexts/%: $$(notdir %)
-	cp $< $@
-
-# This is a variation of the above rule, for .trz files; it clears out
-# the old .trz before copying in the new one, and is needed for when
-# the artifact definitions like APPNAV_ARTIFACT change
-contexts/%.trz: $$(notdir %).trz
-	rm -f $(dir $@)*.trz
 	cp $< $@
 
 

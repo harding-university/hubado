@@ -1,26 +1,12 @@
 FROM openjdk:8 as builder
 
 WORKDIR /build
-COPY ["*.trz", "artifact.tar.gz"]
-RUN tar -xzf artifact.tar.gz && \
-    unzip */java/*.zip -d release
+COPY ["ethosapimanagementcenter.war", "."]
+RUN unzip ethosapimanagementcenter.war -d ethosapimanagementcenter
 
-WORKDIR /build/release/installer
-RUN chmod +x ant && \
-    ./ant && \
-    echo resource.SharedConfigurationHome.default=/build/shared > installer-store.properties && \
-    echo resource.ModuleHome.default=/build/app >> installer-store.properties && \
-    bin/install home
-
-WORKDIR /build/app/current/instance/config
+WORKDIR /build/ethosapimanagementcenter/WEB-INF/classes/
 RUN sed -i "s,^ *spring\.datasource\.url.*=.*,spring.datasource.url=jdbc:oracle:thin:@//\${oracle.host}/\${oracle.service_name}," application.properties && \
     sed -i "s,^ *spring\.datasource\.password.*=.*,spring.datasource.password=\${banner9.proxy.password}," application.properties
-
-WORKDIR /build/app/current/installer
-RUN chmod +x ant && \
-    ./ant && \
-    bin/systool war
-
 
 FROM tomcat:8.5-jre8-openjdk
 
@@ -36,14 +22,11 @@ COPY ["server.xml", "/usr/local/tomcat/conf/"]
 COPY ["setenv.sh", "/usr/local/tomcat/bin/setenv.sh"]
 
 WORKDIR /usr/local/tomcat/webapps
-COPY --from=builder /build/app/current/dist/ethosapimanagementcenter-*.war ethosapimanagementcenter.war
-RUN unzip ethosapimanagementcenter.war -d ethosapimanagementcenter && \
-    rm ethosapimanagementcenter.war
-
+COPY --from=builder /build/ethosapimanagementcenter ethosapimanagementcenter
 # For some yet-to-be-determined reason, we have to do this again here
-WORKDIR /usr/local/tomcat/webapps/ethosapimanagementcenter/WEB-INF/classes
-RUN sed -i "s,^ *spring\.datasource\.url.*=.*,spring.datasource.url=jdbc:oracle:thin:@//\${oracle.host}/\${oracle.service_name}," application.properties && \
-    sed -i "s,^ *spring\.datasource\.password.*=.*,spring.datasource.password=\${banner9.proxy.password}," application.properties
+#WORKDIR /usr/local/tomcat/webapps/ethosapimanagementcenter/WEB-INF/classes
+#RUN sed -i "s,^ *spring\.datasource\.url.*=.*,spring.datasource.url=jdbc:oracle:thin:@//\${oracle.host}/\${oracle.service_name}," application.properties && \
+#    sed -i "s,^ *spring\.datasource\.password.*=.*,spring.datasource.password=\${banner9.proxy.password}," application.properties
 
 WORKDIR /usr/local/tomcat/
 RUN useradd tomcat && \

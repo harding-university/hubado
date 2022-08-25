@@ -24,8 +24,3 @@ HUBADO_HOST_USER = hubado
 TIMEZONE = America/Chicago
 
 INSTITUTION_NAME = Hubado University
-
-# Uncomment to build specific artifact versions
-# APPNAV_ARTIFACT = application-navigator-30600u.trz
-# BCM_ARTIFACT = communication-management-90704u.trz
-# EXTZ_ARTIFACT = banner-extensibility-91000u.trz

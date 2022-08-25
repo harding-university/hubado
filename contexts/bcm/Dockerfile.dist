@@ -1,18 +1,10 @@
 FROM openjdk:8 as builder
 
 WORKDIR /build
-COPY ["*.trz", "artifact.tar.gz"]
-RUN tar -xzf artifact.tar.gz && \
-    unzip */java/*.zip -d release
+COPY ["CommunicationManagement.war", "."]
+RUN unzip CommunicationManagement.war -d CommunicationManagement
 
-WORKDIR /build/release/installer
-RUN chmod +x ant && \
-    ./ant && \
-    echo resource.SharedConfigurationHome.default=/build/shared > installer-store.properties && \
-    echo resource.ModuleHome.default=/build/app >> installer-store.properties && \
-    bin/install home
-
-WORKDIR /build/app/current/instance/config
+WORKDIR /build/CommunicationManagement/WEB-INF/classes/
 RUN sed -i "s/^\s*authenticationProvider.*=.*/authenticationProvider='cas'/" CommunicationManagement_configuration.groovy && \
     sed -i "s/^\s*active.*=.*/active=true/" CommunicationManagement_configuration.groovy && \
     sed -i "s/^\s*serverUrlPrefix.*=.*/serverUrlPrefix='\${cas.url}'/" CommunicationManagement_configuration.groovy && \
@@ -22,12 +14,6 @@ RUN sed -i "s/^\s*authenticationProvider.*=.*/authenticationProvider='cas'/" Com
     sed -i "s/^\s*afterLogoutUrl.*=.*/afterLogoutUrl='\${cas.url}\/logout\?url=\${banner9.root}\/CommunicationManagement\/'/" CommunicationManagement_configuration.groovy && \
     sed -i "s/^\s*grails\.plugin\.springsecurity\.homePageUrl.*=.*/grails\.plugin\.springsecurity\.homePageUrl='\${banner9.root}\/'/" CommunicationManagement_configuration.groovy && \
     sed -i "s/^\s*targetServer.*=.*/targetServer=\"tomcat\"/" CommunicationManagement_configuration.groovy
-
-WORKDIR /build/app/current/installer
-RUN chmod +x ant && \
-    ./ant && \
-    bin/systool war
-
 
 FROM tomcat:8.5-jre8-openjdk
 
@@ -40,22 +26,9 @@ COPY ["server.xml", "/usr/local/tomcat/conf/"]
 COPY ["setenv.sh", "/usr/local/tomcat/bin/setenv.sh"]
 
 WORKDIR /usr/local/tomcat/webapps
-COPY --from=builder /build/app/current/dist/CommunicationManagement-*.war CommunicationManagement.war
-RUN unzip CommunicationManagement.war -d CommunicationManagement && \
-    rm CommunicationManagement.war
+COPY --from=builder /build/CommunicationManagement CommunicationManagement
 
 WORKDIR /usr/local/tomcat/
 RUN useradd tomcat && \
     chown -R tomcat.tomcat /usr/local/tomcat
 USER tomcat
-
-# Temporary patch for CVE-2022-35912, see https://grails.org/blog/2022-07-18-rce-vulnerability.html
-RUN mkdir /tmp/grails
-WORKDIR /tmp/grails
-RUN wget https://github.com/grails/grails-core/releases/download/v3.3.15/grails-3.3.15.zip
-RUN unzip grails-3.3.15.zip
-WORKDIR /usr/local/tomcat/webapps/CommunicationManagement/WEB-INF/lib
-RUN ls grails*3.3.11.jar | sed s/3\\.3\\.11/3.3.15/g | xargs -iFILE mv /tmp/grails/grails-3.3.15/dist/FILE .
-RUN rm grails*-3.3.11.jar
-RUN rm -fr /tmp/grails
-WORKDIR /usr/local/tomcat/
