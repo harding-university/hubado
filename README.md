@@ -43,15 +43,15 @@ released under the [MIT license](LICENSE).*
 
 2.  In ESM's Jenkins instance, define a new node for the Hubado instance:
 
-        1. Log in to Jenkins, click `Manage Jenkins`, then `Manage Nodes and
-           Clouds`, and then `New Node`.
-        2. Give the node a descriptive name, like `HUBADO`; select `Permanent
-           Agent` and click `Create`. Fill in the following values:
+       1. Log in to Jenkins, click `Manage Jenkins`, then `Manage Nodes and
+          Clouds`, and then `New Node`.
+       2. Give the node a descriptive name, like `HUBADO`; select `Permanent
+          Agent` and click `Create`. Fill in the following values:
 
-            -   `Description`: the node's name
-            -   `Remote root directory`: `/opt/jenkins`
-            -   `Labels`: the node's name
-            -   `Usage`: `Only build jobs with label expressions matching this
+           -   `Description`: the node's name
+           -   `Remote root directory`: `/opt/jenkins`
+           -   `Labels`: the node's name
+           -   `Usage`: `Only build jobs with label expressions matching this
                 node`
 
             Afterwards, click "Save".
