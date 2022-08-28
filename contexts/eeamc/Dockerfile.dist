@@ -4,7 +4,7 @@ WORKDIR /build
 COPY ["ethosapimanagementcenter.war", "."]
 RUN unzip ethosapimanagementcenter.war -d ethosapimanagementcenter
 
-WORKDIR /build/ethosapimanagementcenter/WEB-INF/classes/
+WORKDIR /build/ethosapimanagementcenter/WEB-INF/classes/config/
 RUN sed -i "s,^ *spring\.datasource\.url.*=.*,spring.datasource.url=jdbc:oracle:thin:@//\${oracle.host}/\${oracle.service_name}," application.properties && \
     sed -i "s,^ *spring\.datasource\.password.*=.*,spring.datasource.password=\${banner9.proxy.password}," application.properties
 
