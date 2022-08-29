@@ -89,6 +89,11 @@ jenkins: user $(LOCAL_FILES)
 	$(DOCKER_COMPOSE) up -d jenkins
 
 
+haproxy: 
+	$(DOCKER_COMPOSE) build haproxy
+	$(DOCKER_COMPOSE) stop haproxy
+	$(DOCKER_COMPOSE) up -d haproxy
+
 down:
 	$(DOCKER_COMPOSE) --profile endpoints --profile core down
 
