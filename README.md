@@ -27,13 +27,15 @@ released under the [MIT license](LICENSE).*
 
 -   Supported Banner components:
 
-    -   Application Navigator
-    -   Admin Common
-    -   Extensibility
-    -   Communication Management
     -   Access Management
+    -   Admin Common
+    -   Application Navigator
+    -   Communication Management
     -   Ellucian Ethos API Management Center (beta)
+    -   Extensibility
     -   Banner Event Publisher (beta)
+    -   Integration API (beta)
+    -   Student API (beta)
     -   ...and more to come!
 
 
