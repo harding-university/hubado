@@ -1,5 +1,5 @@
 services:
-    # Proxy
+    # External endpoint
     haproxy:
         build:
             context: contexts/haproxy
@@ -8,32 +8,47 @@ services:
             - "443:8443"
         volumes:
             - ./volumes/ssl:/usr/local/etc/haproxy/ssl
+        profiles: ["endpoints"]
 
-    # Tomcat servers
+
+    # Core application services
     accessmgmt:
         build:
             context: contexts/accessmgmt
         volumes:
           - ./volumes/tomcat-env:/tomcat-env
+        profiles: ["core"]
 
     admincommon:
         build:
             context: contexts/admincommon
         volumes:
           - ./volumes/tomcat-env:/tomcat-env
+        profiles: ["core"]
 
     appnav:
         build:
             context: contexts/appnav
         volumes:
           - ./volumes/tomcat-env:/tomcat-env
+        profiles: ["core"]
 
     bcm:
         build:
             context: contexts/bcm
         volumes:
           - ./volumes/tomcat-env:/tomcat-env
+        profiles: ["core"]
 
+    extz:
+        build:
+            context: contexts/extz
+        volumes:
+          - ./volumes/tomcat-env:/tomcat-env
+        profiles: ["core"]
+
+
+    # API services
     bep:
         build:
             context: contexts/bep
@@ -41,24 +56,29 @@ services:
           - bep_rabbitmq
         volumes:
           - ./volumes/tomcat-env:/tomcat-env
+        profiles: ["apis"]
     bep_rabbitmq:
         image: rabbitmq
         hostname: bep_rabbitmq
         env_file: conf/bep_rabbitmq.env
         volumes:
           - ./volumes/bep_rabbitmq:/var/lib/rabbitmq
+        profiles: ["apis"]
 
     eeamc:
         build:
             context: contexts/eeamc
         volumes:
           - ./volumes/tomcat-env:/tomcat-env
+        profiles: ["apis"]
 
-    extz:
+    integrationapi:
         build:
-            context: contexts/extz
+            context: contexts/integrationapi
         volumes:
           - ./volumes/tomcat-env:/tomcat-env
+        profiles: ["apis"]
+
 
     # Jenkins
     jenkins:
@@ -69,6 +89,7 @@ services:
           - ./volumes/jenkins/start.sh:/opt/jenkins/start.sh:ro
           - ./volumes/jenkins/wgetrc:/home/jenkins/.wgetrc:ro
           - ./volumes/jenkins/war:/war
+        profiles: ["jenkins"]
 
     # Monitoring
    # prometheus:

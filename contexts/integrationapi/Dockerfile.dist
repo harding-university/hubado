@@ -1,0 +1,29 @@
+FROM openjdk:8 as builder
+
+RUN apt update && apt install -y patch
+
+WORKDIR /build
+COPY ["IntegrationApi.war", "."]
+RUN unzip IntegrationApi.war -d IntegrationApi
+
+COPY ["banner_configuration.groovy.patch", "/tmp"]
+RUN patch -i /tmp/banner_configuration.groovy.patch \
+        IntegrationApi/WEB-INF/classes/banner_configuration.groovy
+
+FROM tomcat:8.5-jre8-openjdk
+
+ENV TZ=America/Chicago
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+COPY ["ojdbc8.jar", "/usr/local/tomcat/lib/"]
+COPY ["context.xml", "/usr/local/tomcat/conf/"]
+COPY ["server.xml", "/usr/local/tomcat/conf/"]
+COPY ["setenv.sh", "/usr/local/tomcat/bin/setenv.sh"]
+
+WORKDIR /usr/local/tomcat/webapps
+COPY --from=builder /build/IntegrationApi IntegrationApi
+
+WORKDIR /usr/local/tomcat/
+RUN useradd tomcat && \
+    chown -R tomcat.tomcat /usr/local/tomcat
+USER tomcat

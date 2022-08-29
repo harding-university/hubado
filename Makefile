@@ -17,6 +17,7 @@ TOMCATS = \
 	bep \
 	eeamc \
 	extz \
+	integrationapi \
 
 # List of stock tomcat prereqs, given to every tomcat context
 TOMCAT_PREREQS = \
@@ -35,6 +36,7 @@ CONTEXTS_WAR_PREREQS = \
 	contexts/bcm/CommunicationManagement.war \
 	contexts/bep/BannerEventPublisher.war \
 	contexts/extz/BannerExtensibility.war \
+	contexts/integrationapi/IntegrationApi.war \
 
 CONTEXTS_ADDITIONAL_PREREQS = \
 	contexts/extz/xdb6.jar \
@@ -48,6 +50,7 @@ LOCAL_FILES = \
 	contexts/bep/Dockerfile \
 	contexts/eeamc/Dockerfile \
 	contexts/extz/Dockerfile \
+	contexts/integrationapi/Dockerfile \
 	contexts/jenkins/Dockerfile \
 	volumes/jenkins/wgetrc \
 	volumes/jenkins/start.sh \
@@ -67,15 +70,15 @@ usage:
 
 
 images: contexts
-	$(DOCKER_COMPOSE) build
+	$(DOCKER_COMPOSE) --profile core --profile apis build
 
 
 update-images: contexts
-	$(DOCKER_COMPOSE) build --pull
+	$(DOCKER_COMPOSE) --profile core --profile apis --profile jenkins build --pull
 
 
 up: volumes
-	$(DOCKER_COMPOSE) up -d
+	$(DOCKER_COMPOSE) --profile endpoints --profile core up -d
 
 
 jenkins: user $(LOCAL_FILES)
@@ -84,7 +87,7 @@ jenkins: user $(LOCAL_FILES)
 
 
 down:
-	$(DOCKER_COMPOSE) down
+	$(DOCKER_COMPOSE) --profile endpoints --profile core down
 
 
 restart: down up
