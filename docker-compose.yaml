@@ -79,6 +79,13 @@ services:
           - ./volumes/tomcat-env:/tomcat-env
         profiles: ["apis"]
 
+    studentapi:
+        build:
+            context: contexts/studentapi
+        volumes:
+          - ./volumes/tomcat-env:/tomcat-env
+        profiles: ["apis"]
+
 
     # Jenkins
     jenkins:

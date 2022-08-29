@@ -18,6 +18,7 @@ TOMCATS = \
 	eeamc \
 	extz \
 	integrationapi \
+	studentapi \
 
 # List of stock tomcat prereqs, given to every tomcat context
 TOMCAT_PREREQS = \
@@ -37,6 +38,7 @@ CONTEXTS_WAR_PREREQS = \
 	contexts/bep/BannerEventPublisher.war \
 	contexts/extz/BannerExtensibility.war \
 	contexts/integrationapi/IntegrationApi.war \
+	contexts/studentapi/StudentApi.war \
 
 CONTEXTS_ADDITIONAL_PREREQS = \
 	contexts/extz/xdb6.jar \
@@ -52,6 +54,7 @@ LOCAL_FILES = \
 	contexts/extz/Dockerfile \
 	contexts/integrationapi/Dockerfile \
 	contexts/jenkins/Dockerfile \
+	contexts/studentapi/Dockerfile \
 	volumes/jenkins/wgetrc \
 	volumes/jenkins/start.sh \
 	volumes/tomcat-env/env.properties \

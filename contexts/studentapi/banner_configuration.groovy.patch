@@ -1,0 +1,25 @@
+62c62
+<     url   = "jdbc:oracle:thin:@HOST:PORT:SID"
+---
+>     url   = "jdbc:oracle:thin:@//${oracle.host}/${oracle.service_name}"
+64,65c64,65
+<     username = "USERNAME"
+<     password = "PASSWORD"
+---
+>     username = "${banner9.proxy.user}"
+>     password = "${banner9.proxy.password}"
+91c91
+<     url   = "jdbc:oracle:thin:@HOST:PORT:SID"
+---
+>     url   = "jdbc:oracle:thin:@//${oracle.host}/${oracle.service_name}"
+93,94c93,94
+<     username = "USERNAME"
+<     password = "PASSWORD"
+---
+>     username = "${banner9.proxy.user}"
+>     password = "${banner9.proxy.password}"
+122c122
+< ********************************************************************************************/
+\ No newline at end of file
+---
+> ********************************************************************************************/
