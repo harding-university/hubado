@@ -12,7 +12,7 @@ RUN patch -i /tmp/banner_configuration.groovy.patch \
 
 FROM tomcat:8.5-jre8-openjdk
 
-ENV TZ=America/Chicago
+ENV TZ=^TIMEZONE^
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 COPY ["ojdbc8.jar", "/usr/local/tomcat/lib/"]
