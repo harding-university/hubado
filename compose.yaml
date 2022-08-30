@@ -47,6 +47,13 @@ services:
           - ./volumes/tomcat-env:/tomcat-env
         profiles: ["core"]
 
+    sss:
+        build:
+            context: contexts/sss
+        volumes:
+          - ./volumes/tomcat-env:/tomcat-env
+        profiles: ["ssb9"]
+
 
     # API services
     bep:
