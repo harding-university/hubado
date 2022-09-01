@@ -56,6 +56,13 @@ services:
           - ./volumes/tomcat-env:/tomcat-env
         profiles: ["ssb9"]
 
+    facss:
+        build:
+            context: contexts/facss
+        volumes:
+          - ./volumes/tomcat-env:/tomcat-env
+        profiles: ["ssb9"]
+
     sss:
         build:
             context: contexts/sss
