@@ -16,6 +16,7 @@ TOMCATS = \
 	bcm \
 	bep \
 	eeamc \
+	employee \
 	extz \
 	integrationapi \
 	sss \
@@ -37,6 +38,7 @@ CONTEXTS_WAR_PREREQS = \
 	contexts/appnav/applicationNavigator.war \
 	contexts/bcm/CommunicationManagement.war \
 	contexts/bep/BannerEventPublisher.war \
+	contexts/employee/EmployeeSelfService.war \
 	contexts/extz/BannerExtensibility.war \
 	contexts/integrationapi/IntegrationApi.war \
 	contexts/sss/StudentSelfService.war \
@@ -53,6 +55,7 @@ LOCAL_FILES = \
 	contexts/bcm/Dockerfile \
 	contexts/bep/Dockerfile \
 	contexts/eeamc/Dockerfile \
+	contexts/employee/Dockerfile \
 	contexts/extz/Dockerfile \
 	contexts/integrationapi/Dockerfile \
 	contexts/jenkins/Dockerfile \

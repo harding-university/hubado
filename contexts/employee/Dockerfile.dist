@@ -1,0 +1,31 @@
+FROM openjdk:8 as builder
+
+RUN apt update && apt install -y unzip patch
+
+WORKDIR /build
+COPY ["EmployeeSelfService.war", "."]
+RUN unzip EmployeeSelfService.war -d EmployeeSelfService
+
+COPY ["EmployeeSelfService_configuration.groovy.patch", "/tmp"]
+RUN patch -i /tmp/EmployeeSelfService_configuration.groovy.patch \
+        EmployeeSelfService/WEB-INF/classes/EmployeeSelfService_configuration.groovy
+
+FROM tomcat:8.5-jre8-openjdk
+
+ENV TZ=^TIMEZONE^
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+COPY ["ojdbc8.jar", "/usr/local/tomcat/lib/"]
+
+COPY ["context.xml", "/usr/local/tomcat/conf/"]
+COPY ["server.xml", "/usr/local/tomcat/conf/"]
+
+WORKDIR /usr/local/tomcat/webapps
+COPY --from=builder /build/EmployeeSelfService EmployeeSelfService
+
+WORKDIR /usr/local/tomcat/
+COPY ["setenv.sh", "bin/setenv.sh"]
+
+RUN useradd tomcat && \
+    chown -R tomcat.tomcat /usr/local/tomcat
+USER tomcat
