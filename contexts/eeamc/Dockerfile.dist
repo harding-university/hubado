@@ -28,7 +28,11 @@ COPY --from=builder /build/ethosapimanagementcenter ethosapimanagementcenter
 #RUN sed -i "s,^ *spring\.datasource\.url.*=.*,spring.datasource.url=jdbc:oracle:thin:@//\${oracle.host}/\${oracle.service_name}," application.properties && \
 #    sed -i "s,^ *spring\.datasource\.password.*=.*,spring.datasource.password=\${banner9.proxy.password}," application.properties
 
+ENV ELLUCIAN_AMC_CONFIG_DIR=/configs
+
 WORKDIR /usr/local/tomcat/
-RUN useradd tomcat && \
-    chown -R tomcat.tomcat /usr/local/tomcat
+RUN useradd tomcat -u ^HUBADO_HOST_UID^ && \
+    chown -R tomcat.tomcat /usr/local/tomcat && \
+    mkdir /configs && \
+    chown -R tomcat.tomcat /configs
 USER tomcat

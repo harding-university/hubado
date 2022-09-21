@@ -92,6 +92,7 @@ services:
         build:
             context: contexts/eeamc
         volumes:
+          - ./volumes/eeamc-configs/:/configs
           - ./volumes/tomcat-env:/tomcat-env
         profiles: ["apis"]
 
