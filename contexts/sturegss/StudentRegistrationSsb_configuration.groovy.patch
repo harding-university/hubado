@@ -1,0 +1,28 @@
+55c55
+<         authenticationProvider = 'default' //  Valid values are: 'default', 'cas', 'saml'
+---
+>         authenticationProvider = 'cas' //  Valid values are: 'default', 'cas', 'saml'
+74,78c74,78
+<                   active = false
+<                   serverUrlPrefix  = 'http://CAS_HOST:PORT/cas'
+<                   serviceUrl       = 'http://BANNER9_HOST:PORT/APP_NAME/login/cas'
+<                   serverName       = 'http://BANNER9_HOST:PORT'
+<                   proxyCallbackUrl = 'http://BANNER9_HOST:PORT/APP_NAME/secure/receptor'
+---
+>                   active = true
+>                   serverUrlPrefix  = '${cas.url}'
+>                   serviceUrl       = '${banner9.root}/FacultySelfService/login/cas'
+>                   serverName       = '${banner9.root}'
+>                   proxyCallbackUrl = '${banner9.root}/FacultySelfService/secure/receptor'
+93c93
+<                   afterLogoutUrl    = 'https://cas-server/logout?url=http://myportal/main_page.html'
+---
+>                   afterLogoutUrl    = '${cas.logouturl}'
+158c158
+< grails.plugin.springsecurity.homePageUrl='<HOME_URL>'
+---
+> grails.plugin.springsecurity.homePageUrl='${banner9.root}'
+224c224
+< targetServer="weblogic"
+---
+> targetServer="tomcat"
