@@ -14,7 +14,6 @@ TOMCATS = \
 	admincommon \
 	appnav \
 	bcm \
-	bep \
 	eeamc \
 	employee \
 	extz \
@@ -38,7 +37,6 @@ CONTEXTS_WAR_PREREQS = \
 	contexts/eeamc/ethosapimanagementcenter.war \
 	contexts/appnav/applicationNavigator.war \
 	contexts/bcm/CommunicationManagement.war \
-	contexts/bep/BannerEventPublisher.war \
 	contexts/employee/EmployeeSelfService.war \
 	contexts/extz/BannerExtensibility.war \
 	contexts/facss/FacultySelfService.war \
@@ -50,12 +48,10 @@ CONTEXTS_ADDITIONAL_PREREQS = \
 	contexts/extz/xdb6.jar \
 
 LOCAL_FILES = \
-	conf/bep_rabbitmq.env \
 	contexts/accessmgmt/Dockerfile \
 	contexts/admincommon/Dockerfile \
 	contexts/appnav/Dockerfile \
 	contexts/bcm/Dockerfile \
-	contexts/bep/Dockerfile \
 	contexts/eeamc/Dockerfile \
 	contexts/employee/Dockerfile \
 	contexts/extz/Dockerfile \
@@ -149,11 +145,6 @@ $(LOCAL_FILES): $$(@).dist Makefile.local
 	@sed -i "s/\^HUBADO_HOST_UID\^/`id -u $(HUBADO_HOST_USER)`/" $@
 	@sed -i "s,\^TIMEZONE\^,$(TIMEZONE)," $@
 	@sed -i "s/\^INSTITUTION_NAME\^/$(INSTITUTION_NAME)/" $@
-	@sed -i "s/\^BEP_RABBITMQ_USER\^/$(BEP_RABBITMQ_USER)/" $@
-	@sed -i "s/\^BEP_RABBITMQ_PASSWORD\^/$(BEP_RABBITMQ_PASSWORD)/" $@
-	@sed -i "s/\^BEP_RABBITMQ_ENCRYPTED_PASSWORD\^/$(BEP_RABBITMQ_ENCRYPTED_PASSWORD)/" $@
-	@sed -i "s/\^EVENTS_PASSWORD\^/$(EVENTS_PASSWORD)/" $@
-	@sed -i "s/\^CDCADMIN_PASSWORD\^/$(CDCADMIN_PASSWORD)/" $@
 
 
 # User to use inside containers
