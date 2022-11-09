@@ -17,9 +17,7 @@ TOMCATS = \
 	eeamc \
 	employee \
 	extz \
-	facss \
 	integrationapi \
-	sss \
 	studentapi \
 
 # List of stock tomcat prereqs, given to every tomcat context
@@ -39,9 +37,7 @@ CONTEXTS_WAR_PREREQS = \
 	contexts/bcm/CommunicationManagement.war \
 	contexts/employee/EmployeeSelfService.war \
 	contexts/extz/BannerExtensibility.war \
-	contexts/facss/FacultySelfService.war \
 	contexts/integrationapi/IntegrationApi.war \
-	contexts/sss/StudentSelfService.war \
 	contexts/studentapi/StudentApi.war \
 
 CONTEXTS_ADDITIONAL_PREREQS = \
@@ -55,10 +51,8 @@ LOCAL_FILES = \
 	contexts/eeamc/Dockerfile \
 	contexts/employee/Dockerfile \
 	contexts/extz/Dockerfile \
-	contexts/facss/Dockerfile \
 	contexts/integrationapi/Dockerfile \
 	contexts/jenkins/Dockerfile \
-	contexts/sss/Dockerfile \
 	contexts/studentapi/Dockerfile \
 	volumes/jenkins/wgetrc \
 	volumes/jenkins/start.sh \

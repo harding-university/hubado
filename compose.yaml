@@ -47,25 +47,11 @@ services:
           - ./volumes/tomcat-env:/tomcat-env
         profiles: ["core"]
 
-   # SSB9
 
+   # SSB9
     employee:
         build:
             context: contexts/employee
-        volumes:
-          - ./volumes/tomcat-env:/tomcat-env
-        profiles: ["ssb9"]
-
-    facss:
-        build:
-            context: contexts/facss
-        volumes:
-          - ./volumes/tomcat-env:/tomcat-env
-        profiles: ["ssb9"]
-
-    sss:
-        build:
-            context: contexts/sss
         volumes:
           - ./volumes/tomcat-env:/tomcat-env
         profiles: ["ssb9"]
