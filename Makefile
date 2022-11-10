@@ -99,8 +99,13 @@ haproxy:
 	$(DOCKER_COMPOSE) stop haproxy
 	$(DOCKER_COMPOSE) up -d haproxy
 
+
 down:
-	$(DOCKER_COMPOSE) --profile endpoints --profile core down
+	$(DOCKER_COMPOSE) --profile endpoints --profile core --profile apis --profile ssb9 down
+
+
+apis:
+	$(DOCKER_COMPOSE) --profile apis up -d
 
 
 restart: down up
