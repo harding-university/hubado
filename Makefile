@@ -17,6 +17,7 @@ TOMCATS = \
 	eeamc \
 	employee \
 	extz \
+	general_ss \
 	integrationapi \
 	studentapi \
 
@@ -37,6 +38,7 @@ CONTEXTS_WAR_PREREQS = \
 	contexts/bcm/CommunicationManagement.war \
 	contexts/employee/EmployeeSelfService.war \
 	contexts/extz/BannerExtensibility.war \
+	contexts/general_ss/BannerGeneralSsb.war \
 	contexts/integrationapi/IntegrationApi.war \
 	contexts/studentapi/StudentApi.war \
 
@@ -51,6 +53,7 @@ LOCAL_FILES = \
 	contexts/eeamc/Dockerfile \
 	contexts/employee/Dockerfile \
 	contexts/extz/Dockerfile \
+	contexts/general_ss/Dockerfile \
 	contexts/integrationapi/Dockerfile \
 	contexts/jenkins/Dockerfile \
 	contexts/studentapi/Dockerfile \

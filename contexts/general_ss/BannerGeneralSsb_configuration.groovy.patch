@@ -1,0 +1,57 @@
+diff --git a/tmp/WEB-INF/classes/BannerGeneralSsb_configuration.groovy b/tmp/BannerGeneralSsb_configuration.groovy
+index 9158b6e..4c49b7f 100644
+--- a/tmp/WEB-INF/classes/BannerGeneralSsb_configuration.groovy
++++ b/tmp/BannerGeneralSsb_configuration.groovy
+@@ -89,7 +89,7 @@ sdeEnabled = false
+ //
+ banner {
+     sso {
+-        authenticationProvider = 'default' //  Valid values are: 'default', 'cas', or 'saml'
++        authenticationProvider = 'cas' //  Valid values are: 'default', 'cas', or 'saml'
+         authenticationAssertionAttribute = 'UDC_IDENTIFIER'
+     }
+ }
+@@ -109,11 +109,11 @@ grails {
+     plugin {
+         springsecurity {
+             cas {
+-                active = false
+-                serverUrlPrefix  = 'http://CAS_HOST:PORT/cas'
+-                serviceUrl       = 'http://BANNER9_HOST:PORT/APP_NAME/login/cas'
+-                serverName       = 'http://BANNER9_HOST:PORT'
+-                proxyCallbackUrl = 'http://BANNER9_HOST:PORT/APP_NAME/secure/receptor'
++                active = true
++                serverUrlPrefix  = '${cas.url}'
++                serviceUrl       = '${banner9.root}/BannerGeneralSsb/login/cas'
++                serverName       = '${banner9.root}'
++                proxyCallbackUrl = '${banner9.root}/BannerGeneralSsb/secure/receptor'
+                 loginUri         = '/login'
+                 sendRenew        = false
+                 proxyReceptorUrl = '/secure/receptor'
+@@ -128,7 +128,7 @@ grails {
+                 }
+             }
+             logout {
+-                afterLogoutUrl    = 'https://cas-server/logout?url=http://myportal/main_page.html'
++                afterLogoutUrl    = '${cas.logouturl}'
+                 mepErrorLogoutUrl = '/logout/logoutPage'
+             }
+         }
+@@ -190,7 +190,7 @@ responseHeaders =[
+  * When deployed on Weblogic this configuration should be targetServer="weblogic" *
+  *                                                                                *
+  **********************************************************************************/
+-targetServer="weblogic"
++targetServer="tomcat"
+ 
+ 
+ /*******************************************************************************
+@@ -213,7 +213,7 @@ webAppExtensibility {
+  *          Home page link when error happens during authentication.          *
+  *                                                                            *
+  ******************************************************************************/
+-grails.plugin.springsecurity.homePageUrl = 'http://HOST:PORT/'
++grails.plugin.springsecurity.homePageUrl = '${banner9.root}'
+ 
+ 
+ /*******************************************************************************
