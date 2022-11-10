@@ -56,6 +56,13 @@ services:
           - ./volumes/tomcat-env:/tomcat-env
         profiles: ["ssb9"]
 
+    financess:
+        build:
+            context: contexts/financess
+        volumes:
+          - ./volumes/tomcat-env:/tomcat-env
+        profiles: ["ssb9"]
+
     general_ss:
         build:
             context: contexts/general_ss
