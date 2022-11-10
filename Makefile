@@ -2,7 +2,7 @@
 .SECONDEXPANSION:
 
 # Directories to copy files from (general make feature, not specific to this file)
-VPATH = conf vendor volumes/jenkins/war artifacts/
+VPATH = conf vendor volumes/jenkins/war
 
 
 DOCKER_COMPOSE = docker compose
