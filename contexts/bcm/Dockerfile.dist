@@ -5,15 +5,11 @@ COPY ["CommunicationManagement.war", "."]
 RUN unzip CommunicationManagement.war -d CommunicationManagement
 
 WORKDIR /build/CommunicationManagement/WEB-INF/classes/
-RUN sed -i "s/^\s*authenticationProvider.*=.*/authenticationProvider='cas'/" CommunicationManagement_configuration.groovy && \
-    sed -i "s/^\s*active.*=.*/active=true/" CommunicationManagement_configuration.groovy && \
-    sed -i "s/^\s*serverUrlPrefix.*=.*/serverUrlPrefix='\${cas.url}'/" CommunicationManagement_configuration.groovy && \
-    sed -i "s/^\s*serviceUrl.*=.*/serviceUrl='\${banner9.root}\/CommunicationManagement\/login\/cas'/" CommunicationManagement_configuration.groovy && \ 
-    sed -i "s/^\s*serverName.*=.*/serverName='\${banner9.root}'/" CommunicationManagement_configuration.groovy && \
-    sed -i "s/^\s*proxyCallbackUrl.*=.*/proxyCallbackUrl='\${banner9.root}\/CommunicationManagement\/secure\/receptor'/" CommunicationManagement_configuration.groovy && \
-    sed -i "s/^\s*afterLogoutUrl.*=.*/afterLogoutUrl='\${cas.url}\/logout\?url=\${banner9.root}\/CommunicationManagement\/'/" CommunicationManagement_configuration.groovy && \
-    sed -i "s/^\s*grails\.plugin\.springsecurity\.homePageUrl.*=.*/grails\.plugin\.springsecurity\.homePageUrl='\${banner9.root}\/'/" CommunicationManagement_configuration.groovy && \
-    sed -i "s/^\s*targetServer.*=.*/targetServer=\"tomcat\"/" CommunicationManagement_configuration.groovy
+COPY ["footer.groovy", "/tmp/"]
+# echo a newline to the .groovy file before the adding the footer
+# (the file may not end with a newline)
+RUN echo >> CommunicationManagement_configuration.groovy && \
+    cat /tmp/footer.groovy >> CommunicationManagement_configuration.groovy
 
 FROM tomcat:8.5-jre8-openjdk
 
