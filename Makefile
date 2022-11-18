@@ -6,6 +6,8 @@ VPATH = conf vendor volumes/jenkins/war
 
 
 DOCKER_COMPOSE = docker compose
+# Which profiles come up and down automatically with make up, make stop, etc.
+AUTO_PROFILES = --profile endpoints --profile core
 
 
 # List of tomcat contexts, to be given the stock tomcat prereqs
@@ -78,15 +80,15 @@ usage:
 
 
 images: contexts
-	$(DOCKER_COMPOSE) --profile core --profile apis build
+	$(DOCKER_COMPOSE) --profile "*" build
 
 
 update-images: contexts
-	$(DOCKER_COMPOSE) --profile core --profile apis --profile jenkins build --pull
+	$(DOCKER_COMPOSE) --profile "*"  build --pull
 
 
 up: volumes
-	$(DOCKER_COMPOSE) --profile endpoints --profile core up -d
+	$(DOCKER_COMPOSE) $(AUTO_PROFILES) up -d
 
 
 jenkins: user $(LOCAL_FILES)
@@ -101,14 +103,22 @@ haproxy:
 
 
 down:
-	$(DOCKER_COMPOSE) --profile endpoints --profile core --profile apis --profile ssb9 down
+	$(DOCKER_COMPOSE) --profile "*" down
+
+
+stop:
+	$(DOCKER_COMPOSE) --profile "*" stop
 
 
 apis:
 	$(DOCKER_COMPOSE) --profile apis up -d
 
 
-restart: down up
+ssb9:
+	$(DOCKER_COMPOSE) --profile ssb9 up -d
+
+
+restart: stop up
 
 
 volumes: $(LOCAL_FILES)

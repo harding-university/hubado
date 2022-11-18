@@ -8,7 +8,7 @@ WorkingDirectory=/opt/hubado
 Type=oneshot
 RemainAfterExit=yes
 ExecStart=/usr/bin/make up
-ExecStop=/usr/bin/make down
+ExecStop=/usr/bin/make stop
 
 [Install]
 WantedBy=multi-user.target
