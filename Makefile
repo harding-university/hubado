@@ -187,6 +187,11 @@ prune:
 	docker image prune -f
 	docker system prune -f
 
+
+test:
+	python3 scripts/test_urls.py
+
+
 .PHONY: down clean contexts images usage prune
 
 # vim: set noexpandtab sts=0:
