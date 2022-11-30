@@ -3,24 +3,14 @@
 import sys
 import urllib
 import urllib.request
-from configparser import ConfigParser
 
-from config import CONTEXT_APPS
-
-
-# Makefile.local isn't exactly a .ini file like configparser epxects,
-# but it's close enough for our purposes
-config = ConfigParser()
-with open('Makefile.local') as makefile_local:
-    # configparser expects key-value pairs to be under bracketed headers
-    config.read_string('[Makefile]\n' + makefile_local.read())
-
-banner9_root = config['Makefile']['BANNER9_ROOT']
+from config import CONTEXT_APPS, MAKEFILE_LOCAL
 
 
 for context, apps in CONTEXT_APPS.items():
     for app in apps:
         try:
+            banner9_root = MAKEFILE_LOCAL['BANNER9_ROOT']
             res = urllib.request.urlopen(f'{banner9_root}/{app}/')
             status = res.status
             error = False
