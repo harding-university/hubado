@@ -6,6 +6,8 @@ VPATH = conf vendor volumes/jenkins/war
 
 
 DOCKER_COMPOSE = docker compose
+PYTHON = python3
+
 # Which profiles come up and down automatically with make up, make stop, etc.
 AUTO_PROFILES = --profile endpoints --profile core
 
@@ -52,7 +54,6 @@ CONTEXTS_ADDITIONAL_PREREQS = \
 LOCAL_FILES = \
 	contexts/accessmgmt/Dockerfile \
 	contexts/admincommon/Dockerfile \
-	contexts/appnav/Dockerfile \
 	contexts/bcm/Dockerfile \
 	contexts/eeamc/Dockerfile \
 	contexts/employee/Dockerfile \
@@ -65,6 +66,9 @@ LOCAL_FILES = \
 	volumes/jenkins/wgetrc \
 	volumes/jenkins/start.sh \
 	volumes/tomcat-env/env.properties \
+
+TOMCAT_DOCKERFILES = \
+	contexts/appnav/Dockerfile \
 
 
 include Makefile.local
@@ -160,6 +164,10 @@ $(LOCAL_FILES): $$(@).dist Makefile.local
 	@sed -i "s/\^HUBADO_HOST_UID\^/`id -u $(HUBADO_HOST_USER)`/" $@
 	@sed -i "s,\^TIMEZONE\^,$(TIMEZONE)," $@
 	@sed -i "s/\^INSTITUTION_NAME\^/$(INSTITUTION_NAME)/" $@
+
+
+$(TOMCAT_DOCKERFILES): scripts/make_tomcat_dockerfile.py templates/tomcat.dockerfile Makefile.local
+	$(PYTHON) scripts/make_tomcat_dockerfile.py $@
 
 
 # User to use inside containers
