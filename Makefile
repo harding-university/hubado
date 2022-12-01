@@ -136,6 +136,7 @@ contexts: $(foreach tomcat,$(TOMCATS),$(foreach prereq,$(TOMCAT_PREREQS),context
 contexts: $(CONTEXTS_WAR_PREREQS)
 contexts: $(CONTEXTS_ADDITIONAL_PREREQS)
 contexts: $(LOCAL_FILES)
+contexts: $(TOMCAT_DOCKERFILES)
 
 
 # This rule says to copy any prereq within contexts/ from the `VPATH` directories 
@@ -168,8 +169,8 @@ $(LOCAL_FILES): $$(@).dist Makefile.local
 	@sed -i "s/\^INSTITUTION_NAME\^/$(INSTITUTION_NAME)/" $@
 
 
-$(TOMCAT_DOCKERFILES): scripts/make_tomcat_dockerfile.py templates/tomcat.dockerfile Makefile.local
-	$(PYTHON) scripts/make_tomcat_dockerfile.py $@
+$(TOMCAT_DOCKERFILES): contexts/scripts/make_tomcat_dockerfile.py contexts/scripts/Dockerfile_tomcat.j2 Makefile.local
+	$(DOCKER_COMPOSE) run scripts make_tomcat_dockerfile.py $@ > $@
 
 
 # User to use inside containers
@@ -188,6 +189,7 @@ clean:
 	rm -f $(CONTEXTS_WAR_PREREQS)
 	rm -f $(CONTEXTS_ADDITIONAL_PREREQS)
 	rm -f $(LOCAL_FILES)
+	rm -f $(TOMCAT_DOCKERFILES)
 
 
 prune:

@@ -5,6 +5,8 @@ RUN useradd -mr hubado -u ^HUBADO_HOST_UID^
 COPY *.py /usr/local/bin/
 RUN chmod +x /usr/local/bin/*.py
 
+COPY Dockerfile_tomcat.j2 /usr/local/share/
+
 WORKDIR /home/hubado
 USER hubado
 
