@@ -15,4 +15,7 @@ contexts/*/*.jar
 contexts/*/*.sh
 contexts/*/*.xml
 
+contexts/scripts/config.py
+
+__pycache__/
 *.swp

@@ -62,6 +62,8 @@ LOCAL_FILES = \
 	contexts/general_ss/Dockerfile \
 	contexts/integrationapi/Dockerfile \
 	contexts/jenkins/Dockerfile \
+	contexts/scripts/config.py \
+	contexts/scripts/Dockerfile \
 	contexts/studentapi/Dockerfile \
 	volumes/jenkins/wgetrc \
 	volumes/jenkins/start.sh \
@@ -197,7 +199,7 @@ prune:
 
 
 test:
-	python3 scripts/test_urls.py
+	$(DOCKER_COMPOSE) run scripts test_urls.py
 
 
 .PHONY: down clean contexts images usage prune

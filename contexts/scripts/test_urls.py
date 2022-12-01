@@ -4,14 +4,13 @@ import sys
 import urllib
 import urllib.request
 
-from config import CONTEXT_APPS, MAKEFILE_LOCAL
+from config import CONTEXT_APPS, BANNER9_ROOT
 
 
 for context, apps in CONTEXT_APPS.items():
     for app in apps:
         try:
-            banner9_root = MAKEFILE_LOCAL['BANNER9_ROOT']
-            res = urllib.request.urlopen(f'{banner9_root}/{app}/')
+            res = urllib.request.urlopen(f'{BANNER9_ROOT}/{app}/')
             status = res.status
             error = False
         except urllib.error.HTTPError as e:

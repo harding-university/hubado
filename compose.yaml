@@ -106,6 +106,13 @@ services:
           - ./volumes/jenkins/war:/war
         profiles: ["jenkins"]
 
+
+    # Scripts
+    scripts:
+        build:
+            context: contexts/scripts
+        profiles: ["scripts"]
+
     # Monitoring
    # prometheus:
    #     image: prom/prometheus

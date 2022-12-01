@@ -17,10 +17,7 @@ with open('templates/tomcat.dockerfile') as f:
 
 app_name = CONTEXT_APPS[context][0]
 timezone = MAKEFILE_LOCAL['timezone']
-dockerfile = template.format(
-    app_name=app_name,
-    timezone=timezone,
-)
+
 
 with open(dockerfile_path, 'w') as f:
     f.write(dockerfile)
