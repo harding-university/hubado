@@ -14,6 +14,7 @@ volumes/*
 contexts/*/*.jar
 contexts/*/*.sh
 contexts/*/*.xml
+contexts/*/footer_*.groovy
 
 contexts/scripts/config.py
 
