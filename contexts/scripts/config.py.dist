@@ -10,7 +10,7 @@ CONTEXT_APPS = {
     'employee': ['EmployeeSelfService',],
     'eeamc': ['ethosapimanagementcenter',],
     'financess': ['FinanceSelfService',],
-    'general_ss': ['GeneralSelfService',],
+    'general_ss': ['BannerGeneralSsb',],
 }
 
 
