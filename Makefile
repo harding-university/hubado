@@ -6,8 +6,6 @@ VPATH = conf vendor volumes/jenkins/war
 
 
 DOCKER_COMPOSE = docker compose
-PYTHON = python3
-
 # Which profiles come up and down automatically with make up, make stop, etc.
 AUTO_PROFILES = --profile endpoints --profile core
 
@@ -29,6 +27,7 @@ TOMCATS = \
 # List of stock tomcat prereqs, given to every tomcat context
 TOMCAT_PREREQS = \
 	context.xml \
+	footer.groovy \
 	ojdbc8.jar \
 	server.xml \
 	setenv.sh \
@@ -54,12 +53,7 @@ CONTEXTS_ADDITIONAL_PREREQS = \
 LOCAL_FILES = \
 	contexts/accessmgmt/Dockerfile \
 	contexts/admincommon/Dockerfile \
-	contexts/bcm/Dockerfile \
 	contexts/eeamc/Dockerfile \
-	contexts/employee/Dockerfile \
-	contexts/extz/Dockerfile \
-	contexts/financess/Dockerfile \
-	contexts/general_ss/Dockerfile \
 	contexts/integrationapi/Dockerfile \
 	contexts/jenkins/Dockerfile \
 	contexts/scripts/config.py \
@@ -71,6 +65,11 @@ LOCAL_FILES = \
 
 TOMCAT_DOCKERFILES = \
 	contexts/appnav/Dockerfile \
+	contexts/bcm/Dockerfile \
+	contexts/employee/Dockerfile \
+	contexts/extz/Dockerfile \
+	contexts/financess/Dockerfile \
+	contexts/general_ss/Dockerfile \
 
 
 include Makefile.local
@@ -108,6 +107,10 @@ haproxy:
 	$(DOCKER_COMPOSE) up -d haproxy
 
 
+scripts: scripts-context
+	$(DOCKER_COMPOSE) build scripts
+
+
 down:
 	$(DOCKER_COMPOSE) --profile "*" down
 
@@ -138,6 +141,7 @@ contexts: $(CONTEXTS_ADDITIONAL_PREREQS)
 contexts: $(LOCAL_FILES)
 contexts: $(TOMCAT_DOCKERFILES)
 
+scripts-context: contexts/scripts/Dockerfile contexts/scripts/config.py
 
 # This rule says to copy any prereq within contexts/ from the `VPATH` directories 
 contexts/%: $$(notdir %)
@@ -169,8 +173,12 @@ $(LOCAL_FILES): $$(@).dist Makefile.local
 	@sed -i "s/\^INSTITUTION_NAME\^/$(INSTITUTION_NAME)/" $@
 
 
-$(TOMCAT_DOCKERFILES): contexts/scripts/make_tomcat_dockerfile.py contexts/scripts/Dockerfile_tomcat.j2 Makefile.local
-	$(DOCKER_COMPOSE) run scripts make_tomcat_dockerfile.py $@ > $@
+$(TOMCAT_DOCKERFILES): \
+		contexts/scripts/make_tomcat_dockerfile.py \
+		contexts/scripts/Dockerfile_tomcat.j2 \
+		Makefile.local \
+		scripts-context
+	$(DOCKER_COMPOSE) run --rm scripts make_tomcat_dockerfile.py $@ > $@
 
 
 # User to use inside containers
@@ -186,6 +194,7 @@ clean:
 	rm -f contexts/*/ojdbc8.jar
 	rm -f contexts/*/xdb6.jar
 	rm -f contexts/*/*.trz
+	rm -f contexts/*/footer.groovy
 	rm -f $(CONTEXTS_WAR_PREREQS)
 	rm -f $(CONTEXTS_ADDITIONAL_PREREQS)
 	rm -f $(LOCAL_FILES)
