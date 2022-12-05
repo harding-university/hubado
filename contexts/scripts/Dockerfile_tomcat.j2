@@ -37,7 +37,13 @@ WORKDIR /usr/local/tomcat/
 COPY ["setenv.sh", "bin/setenv.sh"]
 
 RUN useradd tomcat && \
-    chown -R tomcat.tomcat /usr/local/tomcat
+    mkdir /usr/local/tomcat/build && \
+    chown -R tomcat.tomcat /usr/local/tomcat/build && \
+    chown -R tomcat.tomcat /usr/local/tomcat/logs && \
+    chown -R tomcat.tomcat /usr/local/tomcat/temp && \
+    chown -R tomcat.tomcat /usr/local/tomcat/work && \
+    # setenv.sh, which runs as tomcat at startup, modifies this file
+    chown tomcat.tomcat /usr/local/tomcat/conf/catalina.properties
 USER tomcat
 
 {% if app_name == 'applicationNavigator' %}
