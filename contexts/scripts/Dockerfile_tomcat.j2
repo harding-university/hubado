@@ -20,14 +20,11 @@ WORKDIR /build
 
     WORKDIR /build/{{ app_name }}/WEB-INF/classes/
     COPY ["footer*.groovy", "/tmp/"]
+    RUN sed -i "s,\^APP_NAME\^,{{ app_name }}," /tmp/footer.groovy
     # echo a newline to the .groovy file before the adding the footer
     # (the file may not end with a newline)
     RUN echo >> {{ app_name }}.groovy && \
         cat /tmp/footer*.groovy >> {{ app_name }}.groovy
-
-    COPY ["footer*.groovy", "/tmp/"]
-    RUN sed -i "s,\^APP_NAME\^,{{ app_name }}," /tmp/footer.groovy
-    RUN cat /tmp/footer*.groovy >> {{ app_name }}_configuration.groovy
 {% endif %}
 
 
