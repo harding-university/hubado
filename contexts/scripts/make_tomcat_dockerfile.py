@@ -11,8 +11,6 @@ from config import CONTEXT_APPS, TIMEZONE
 dockerfile_path = sys.argv[1]
 context = re.match(r'contexts/(.*)/Dockerfile', dockerfile_path).groups()[0]
 
-assert len(CONTEXT_APPS[context]) == 1
-
 with open('/usr/local/share/Dockerfile_tomcat.j2') as f:
     template = Template(f.read())
 
@@ -21,5 +19,6 @@ timezone = TIMEZONE
 
 print(template.render(
     app_name=app_name,
+    context=context,
     timezone=timezone,
 ))

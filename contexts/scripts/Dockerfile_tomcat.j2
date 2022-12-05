@@ -1,19 +1,34 @@
 FROM openjdk:8 as builder
 
 WORKDIR /build
-COPY ["{{ app_name }}.war", "."]
-RUN unzip {{ app_name }}.war -d {{ app_name }}
 
-WORKDIR /build/{{ app_name }}/WEB-INF/classes/
-COPY ["footer*.groovy", "/tmp/"]
-# echo a newline to the .groovy file before the adding the footer
-# (the file may not end with a newline)
-RUN echo >> {{ app_name }}.groovy && \
-    cat /tmp/footer*.groovy >> {{ app_name }}.groovy
+{% if context in ['admincommon'] %}
+    COPY ["BannerAdmin.war", "."]
+    COPY ["BannerAdmin.ws.war", "."]
+    RUN unzip BannerAdmin.war -d BannerAdmin && \
+        rm BannerAdmin.war && \
+        unzip BannerAdmin.ws.war -d BannerAdmin.ws && \
+        rm BannerAdmin.ws.war
 
-COPY ["footer*.groovy", "/tmp/"]
-RUN sed -i "s,\^APP_NAME\^,{{ app_name }}," /tmp/footer.groovy
-RUN cat /tmp/footer*.groovy >> {{ app_name }}_configuration.groovy
+    WORKDIR /build/BannerAdmin.ws/WEB-INF/classes/
+    COPY ["footer*.properties", "/tmp/"]
+    RUN cat /tmp/footer*.properties >> config.properties
+    RUN sed -i "s/<session-timeout>60<\/session-timeout>/<session-timeout>\${banner9.session_timeout}<\/session-timeout>/" ../web.xml
+{% else %}
+    COPY ["{{ app_name }}.war", "."]
+    RUN unzip {{ app_name }}.war -d {{ app_name }}
+
+    WORKDIR /build/{{ app_name }}/WEB-INF/classes/
+    COPY ["footer*.groovy", "/tmp/"]
+    # echo a newline to the .groovy file before the adding the footer
+    # (the file may not end with a newline)
+    RUN echo >> {{ app_name }}.groovy && \
+        cat /tmp/footer*.groovy >> {{ app_name }}.groovy
+
+    COPY ["footer*.groovy", "/tmp/"]
+    RUN sed -i "s,\^APP_NAME\^,{{ app_name }}," /tmp/footer.groovy
+    RUN cat /tmp/footer*.groovy >> {{ app_name }}_configuration.groovy
+{% endif %}
 
 
 FROM tomcat:8.5-jre8-openjdk
@@ -27,10 +42,10 @@ COPY ["context.xml", "/usr/local/tomcat/conf/"]
 COPY ["server.xml", "/usr/local/tomcat/conf/"]
 
 WORKDIR /usr/local/tomcat/webapps
-COPY --from=builder /build/{{ app_name }} {{ app_name }}
+COPY --from=builder /build/ ./
 
-{% if app_name == 'applicationNavigator' %}
-COPY ["*.jpg", "{{ app_name }}/assets/backgrounds/"]
+{% if context == 'appnav' %}
+    COPY ["*.jpg", "{{ app_name }}/assets/backgrounds/"]
 {% endif %}
 
 WORKDIR /usr/local/tomcat/
@@ -46,7 +61,7 @@ RUN useradd tomcat && \
     chown tomcat.tomcat /usr/local/tomcat/conf/catalina.properties
 USER tomcat
 
-{% if app_name == 'applicationNavigator' %}
-copy ["limits.conf", "/etc/security/limits.conf"]
-ENV CATALINA_OPTS="-server -Xms14g -Xmx14g -Doracle.jdbc.autoCommitSpecCompliant=false"
+{% if context in ['admincommondisabled', 'appnav'] %}
+    copy ["limits.conf", "/etc/security/limits.conf"]
+    ENV CATALINA_OPTS="-server -Xms14g -Xmx14g -Doracle.jdbc.autoCommitSpecCompliant=false"
 {% endif %}

@@ -52,7 +52,6 @@ CONTEXTS_ADDITIONAL_PREREQS = \
 
 LOCAL_FILES = \
 	contexts/accessmgmt/Dockerfile \
-	contexts/admincommon/Dockerfile \
 	contexts/eeamc/Dockerfile \
 	contexts/integrationapi/Dockerfile \
 	contexts/jenkins/Dockerfile \
@@ -64,6 +63,7 @@ LOCAL_FILES = \
 	volumes/tomcat-env/env.properties \
 
 TOMCAT_DOCKERFILES = \
+	contexts/admincommon/Dockerfile \
 	contexts/appnav/Dockerfile \
 	contexts/bcm/Dockerfile \
 	contexts/employee/Dockerfile \
@@ -139,6 +139,7 @@ contexts: $(foreach tomcat,$(TOMCATS),$(foreach prereq,$(TOMCAT_PREREQS),context
 contexts: $(CONTEXTS_WAR_PREREQS)
 contexts: $(CONTEXTS_ADDITIONAL_PREREQS)
 contexts: $(LOCAL_FILES)
+contexts: scripts
 contexts: $(TOMCAT_DOCKERFILES)
 
 scripts-context: contexts/scripts/Dockerfile contexts/scripts/config.py
@@ -213,6 +214,6 @@ test:
 	$(DOCKER_COMPOSE) run scripts test_urls.py
 
 
-.PHONY: down clean contexts images usage prune
+.PHONY: down clean contexts images usage prune scripts
 
 # vim: set noexpandtab sts=0:
