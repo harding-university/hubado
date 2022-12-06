@@ -24,7 +24,7 @@ WORKDIR /build
     # echo a newline to the .groovy file before the adding the footer
     # (the file may not end with a newline)
     RUN echo >> {{ app_name }}.groovy && \
-        cat /tmp/footer*.groovy >> {{ app_name }}.groovy
+        cat /tmp/footer*.groovy >> {{ app_name }}_configuration.groovy
 {% endif %}
 
 
