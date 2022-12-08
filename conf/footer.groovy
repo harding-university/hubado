@@ -4,6 +4,6 @@ grails.plugin.springsecurity.cas.serverUrlPrefix='${cas.url}'
 grails.plugin.springsecurity.cas.serviceUrl='${banner9.root}/^APP_NAME^/login/cas'
 grails.plugin.springsecurity.cas.serverName='${banner9.root}'
 grails.plugin.springsecurity.cas.proxyCallbackUrl='${banner9.root}/^APP_NAME^/secure/receptor'
-grails.plugin.springsecurity.cas.logout.afterLogoutUrl='${cas.url}/logout?url=${banner9.root}/^APP_NAME^/'
+grails.plugin.springsecurity.logout.afterLogoutUrl='${cas.url}/logout?url=${banner9.root}/^APP_NAME^/'
 grails.plugin.springsecurity.homePageUrl='${banner9.root}/'
 targetServer="tomcat"
