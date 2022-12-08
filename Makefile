@@ -211,7 +211,7 @@ prune:
 
 
 test:
-	$(DOCKER_COMPOSE) run scripts test_urls.py
+	$(DOCKER_COMPOSE) run --rm scripts test_urls.py
 
 
 .PHONY: down clean contexts images usage prune scripts
