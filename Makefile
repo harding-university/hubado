@@ -116,7 +116,7 @@ down:
 
 
 stop:
-	$(DOCKER_COMPOSE) --profile "*" stop
+	$(DOCKER_COMPOSE) $(AUTO_PROFILES) stop
 
 
 apis:
