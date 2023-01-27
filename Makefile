@@ -146,13 +146,13 @@ usage:
 
 # Builds the images in AUTO_PROFILES
 images: contexts
-	$(DOCKER_COMPOSE) --profile $(AUTO_PROFILES) build
+	$(DOCKER_COMPOSE) $(AUTO_PROFILES) build
 
 
 # Rebuilds the images in AUTO_PROFILES, pulling latest base image and
 # updating dependencies
 update-images: contexts
-	$(DOCKER_COMPOSE) --profile "$(AUTO_PROFILES)"  build --no-cache --pull
+	$(DOCKER_COMPOSE) $(AUTO_PROFILES)  build --no-cache --pull
 
 
 up: $(LOCAL_FILES)
