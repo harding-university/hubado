@@ -58,7 +58,7 @@ RUN useradd tomcat && \
     chown tomcat.tomcat /usr/local/tomcat/conf/catalina.properties
 USER tomcat
 
-{% if context in ['admincommondisabled', 'appnav'] %}
-    copy ["limits.conf", "/etc/security/limits.conf"]
-    ENV CATALINA_OPTS="-server -Xms14g -Xmx14g -Doracle.jdbc.autoCommitSpecCompliant=false"
+{% if context in ['appnav',] %}
+    COPY ["limits.conf", "/etc/security/limits.conf"]
+    ENV CATALINA_OPTS="-server -Xms8g -Xmx8g -Doracle.jdbc.autoCommitSpecCompliant=false"
 {% endif %}
