@@ -11,6 +11,8 @@ CONTEXT_APPS = {
     'eeamc': ['ethosapimanagementcenter',],
     'financess': ['FinanceSelfService',],
     'general_ss': ['BannerGeneralSsb',],
+    'integrationapi': ['IntegrationAPI',],
+    'studentapi': ['StudentAPI',],
 }
 
 
