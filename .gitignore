@@ -1,5 +1,7 @@
 Makefile.local
 
+compose.yaml
+
 Dockerfile
 footer.groovy
 conf/bep_rabbitmq.env

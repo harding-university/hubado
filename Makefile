@@ -75,6 +75,7 @@ CONTEXTS_ADDITIONAL_PREREQS = \
 # files; files specified will automatically be created from a
 # corresponding .dist file, with variable substitution applied
 LOCAL_FILES = \
+	compose.yaml \
 	contexts/accessmgmt/Dockerfile \
 	contexts/eeamc/Dockerfile \
 	contexts/integrationapi/Dockerfile \
@@ -191,6 +192,10 @@ ssb9:
 	$(DOCKER_COMPOSE) --profile ssb9 up -d
 
 
+metrics: contexts
+	$(DOCKER_COMPOSE) --profile metrics up -d
+
+
 clean:
 	rm -f contexts/*/context.xml
 	rm -f contexts/*/server.xml
@@ -270,6 +275,9 @@ $(LOCAL_FILES): $$(@).dist Makefile.local
 	@sed -i "s/\^HUBADO_HOST_UID\^/`id -u $(HUBADO_HOST_USER)`/" $@
 	@sed -i "s,\^TIMEZONE\^,$(TIMEZONE)," $@
 	@sed -i "s/\^INSTITUTION_NAME\^/$(INSTITUTION_NAME)/" $@
+	@sed -i "s/\^GRAFANA_USER\^/$(GRAFANA_USER)/" $@
+	@sed -i "s/\^GRAFANA_PASSWORD\^/$(GRAFANA_PASSWORD)/" $@
+	@sed -i "s/\^GRAFANA_SMTP_HOST\^/$(GRAFANA_SMTP_HOST)/" $@
 
 
 # This builds Tomcat Dockerfiles with the Dockerfile_tomcat.j2 template

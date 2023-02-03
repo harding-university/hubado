@@ -24,3 +24,7 @@ HUBADO_HOST_USER = hubado
 TIMEZONE = America/Chicago
 
 INSTITUTION_NAME = Hubado University
+
+GRAFANA_USER = grafana
+GRAFANA_PASSWORD = password
+GRAFANA_SMTP_HOST = mail.example.edu
