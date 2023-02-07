@@ -212,7 +212,6 @@ clean:
 
 prune:
 	docker container prune -f
-	docker volume prune -f
 	docker network prune -f
 	docker image prune -f
 	docker system prune -f
