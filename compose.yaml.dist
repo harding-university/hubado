@@ -135,7 +135,6 @@ services:
         image: grafana/grafana-oss
         volumes:
           - ./conf/prometheus-data-source.yml:/etc/grafana/provisioning/datasources/prometheus-data-source.yml:ro
-          - grafana:/var/lib/grafana
         environment:
           GF_SERVER_ROOT_URL: "^BANNER9_ROOT^/grafana"
           GF_SERVER_SERVE_FROM_SUB_PATH: "true"
