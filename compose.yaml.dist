@@ -131,6 +131,11 @@ services:
             - /var/lib/docker/:/var/lib/docker:ro
         profiles: ["metrics"]
 
+    loki:
+        image: grafana/loki
+        volumes:
+          - loki:/loki
+
     grafana:
         image: grafana/grafana-oss
         volumes:
@@ -150,5 +155,6 @@ services:
 
 
 volumes:
-    prometheus:
     grafana:
+    loki:
+    prometheus:
