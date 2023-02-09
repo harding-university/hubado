@@ -193,6 +193,7 @@ ssb9:
 
 
 metrics: contexts
+	scripts/install-loki-docker-driver.sh
 	$(DOCKER_COMPOSE) --profile metrics up -d
 
 
