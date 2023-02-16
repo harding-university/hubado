@@ -3,7 +3,7 @@ services:
   haproxy:
     build:
       context: contexts/haproxy
-    logging:
+    logging: &logging-loki
       driver: loki
       options:
         loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
@@ -15,84 +15,73 @@ services:
     profiles: ["endpoints"]
 
   # Core application services
-  accessmgmt:
+  accessmgmt: &tomcat-service
     build:
       context: contexts/accessmgmt
+    logging: *logging-loki
     volumes:
       - ./volumes/tomcat-env:/tomcat-env
     profiles: ["core"]
 
   admincommon:
+    <<: *tomcat-service
     build:
       context: contexts/admincommon
-    volumes:
-      - ./volumes/tomcat-env:/tomcat-env
-    profiles: ["core"]
 
   appnav:
+    <<: *tomcat-service
     build:
       context: contexts/appnav
-    volumes:
-      - ./volumes/tomcat-env:/tomcat-env
-    profiles: ["core"]
 
   bcm:
+    <<: *tomcat-service
     build:
       context: contexts/bcm
-    volumes:
-      - ./volumes/tomcat-env:/tomcat-env
-    profiles: ["core"]
 
   extz:
+    <<: *tomcat-service
     build:
       context: contexts/extz
-    volumes:
-      - ./volumes/tomcat-env:/tomcat-env
-    profiles: ["core"]
 
   # SSB9
   employee:
+    <<: *tomcat-service
     build:
       context: contexts/employee
-    volumes:
-      - ./volumes/tomcat-env:/tomcat-env
     profiles: ["ssb9"]
 
   financess:
+    <<: *tomcat-service
     build:
       context: contexts/financess
-    volumes:
-      - ./volumes/tomcat-env:/tomcat-env
     profiles: ["ssb9"]
 
   general_ss:
+    <<: *tomcat-service
     build:
       context: contexts/general_ss
-    volumes:
-      - ./volumes/tomcat-env:/tomcat-env
     profiles: ["ssb9"]
 
   # API services
   eeamc:
+    <<: *tomcat-service
     build:
       context: contexts/eeamc
     volumes:
-      - ./volumes/eeamc-configs/:/configs
       - ./volumes/tomcat-env:/tomcat-env
+      - ./volumes/eeamc-configs/:/configs
     profiles: ["apis"]
 
   integrationapi:
+    <<: *tomcat-service
     build:
       context: contexts/integrationapi
-    volumes:
-      - ./volumes/tomcat-env:/tomcat-env
     profiles: ["apis"]
 
   studentapi:
+    <<: *tomcat-service
     build:
       context: contexts/studentapi
-    volumes:
-      - ./volumes/tomcat-env:/tomcat-env
     profiles: ["apis"]
 
   # Jenkins
@@ -110,11 +99,13 @@ services:
   scripts:
     build:
       context: contexts/scripts
+    logging: *logging-loki
     profiles: ["scripts"]
 
   # Monitoring
   prometheus:
     image: ubuntu/prometheus
+    logging: *logging-loki
     volumes:
       - ./conf/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus:/prometheus
@@ -122,6 +113,7 @@ services:
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
+    logging: *logging-loki
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
@@ -131,6 +123,7 @@ services:
 
   loki:
     image: grafana/loki
+    logging: *logging-loki
     ports:
       - "127.0.0.1:3100:3100"
     volumes:
@@ -139,6 +132,7 @@ services:
 
   grafana:
     image: grafana/grafana-oss
+    logging: *logging-loki
     volumes:
       - ./conf/prometheus-data-source.yml:/etc/grafana/provisioning/datasources/prometheus-data-source.yml:ro
     environment:
