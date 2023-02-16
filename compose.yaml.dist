@@ -1,166 +1,159 @@
 services:
-    # External endpoint
-    haproxy:
-        build:
-            context: contexts/haproxy
-        logging:
-            driver: loki
-            options:
-                loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
-        ports:
-            - "80:8080"
-            - "443:8443"
-        volumes:
-            - ./volumes/ssl:/usr/local/etc/haproxy/ssl
-        profiles: ["endpoints"]
+  # External endpoint
+  haproxy:
+    build:
+      context: contexts/haproxy
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+    ports:
+      - "80:8080"
+      - "443:8443"
+    volumes:
+      - ./volumes/ssl:/usr/local/etc/haproxy/ssl
+    profiles: ["endpoints"]
 
+  # Core application services
+  accessmgmt:
+    build:
+      context: contexts/accessmgmt
+    volumes:
+      - ./volumes/tomcat-env:/tomcat-env
+    profiles: ["core"]
 
-    # Core application services
-    accessmgmt:
-        build:
-            context: contexts/accessmgmt
-        volumes:
-          - ./volumes/tomcat-env:/tomcat-env
-        profiles: ["core"]
+  admincommon:
+    build:
+      context: contexts/admincommon
+    volumes:
+      - ./volumes/tomcat-env:/tomcat-env
+    profiles: ["core"]
 
-    admincommon:
-        build:
-            context: contexts/admincommon
-        volumes:
-          - ./volumes/tomcat-env:/tomcat-env
-        profiles: ["core"]
+  appnav:
+    build:
+      context: contexts/appnav
+    volumes:
+      - ./volumes/tomcat-env:/tomcat-env
+    profiles: ["core"]
 
-    appnav:
-        build:
-            context: contexts/appnav
-        volumes:
-          - ./volumes/tomcat-env:/tomcat-env
-        profiles: ["core"]
+  bcm:
+    build:
+      context: contexts/bcm
+    volumes:
+      - ./volumes/tomcat-env:/tomcat-env
+    profiles: ["core"]
 
-    bcm:
-        build:
-            context: contexts/bcm
-        volumes:
-          - ./volumes/tomcat-env:/tomcat-env
-        profiles: ["core"]
+  extz:
+    build:
+      context: contexts/extz
+    volumes:
+      - ./volumes/tomcat-env:/tomcat-env
+    profiles: ["core"]
 
-    extz:
-        build:
-            context: contexts/extz
-        volumes:
-          - ./volumes/tomcat-env:/tomcat-env
-        profiles: ["core"]
+  # SSB9
+  employee:
+    build:
+      context: contexts/employee
+    volumes:
+      - ./volumes/tomcat-env:/tomcat-env
+    profiles: ["ssb9"]
 
+  financess:
+    build:
+      context: contexts/financess
+    volumes:
+      - ./volumes/tomcat-env:/tomcat-env
+    profiles: ["ssb9"]
 
-   # SSB9
-    employee:
-        build:
-            context: contexts/employee
-        volumes:
-          - ./volumes/tomcat-env:/tomcat-env
-        profiles: ["ssb9"]
+  general_ss:
+    build:
+      context: contexts/general_ss
+    volumes:
+      - ./volumes/tomcat-env:/tomcat-env
+    profiles: ["ssb9"]
 
-    financess:
-        build:
-            context: contexts/financess
-        volumes:
-          - ./volumes/tomcat-env:/tomcat-env
-        profiles: ["ssb9"]
+  # API services
+  eeamc:
+    build:
+      context: contexts/eeamc
+    volumes:
+      - ./volumes/eeamc-configs/:/configs
+      - ./volumes/tomcat-env:/tomcat-env
+    profiles: ["apis"]
 
-    general_ss:
-        build:
-            context: contexts/general_ss
-        volumes:
-          - ./volumes/tomcat-env:/tomcat-env
-        profiles: ["ssb9"]
+  integrationapi:
+    build:
+      context: contexts/integrationapi
+    volumes:
+      - ./volumes/tomcat-env:/tomcat-env
+    profiles: ["apis"]
 
+  studentapi:
+    build:
+      context: contexts/studentapi
+    volumes:
+      - ./volumes/tomcat-env:/tomcat-env
+    profiles: ["apis"]
 
-    # API services
-    eeamc:
-        build:
-            context: contexts/eeamc
-        volumes:
-          - ./volumes/eeamc-configs/:/configs
-          - ./volumes/tomcat-env:/tomcat-env
-        profiles: ["apis"]
+  # Jenkins
+  jenkins:
+    build:
+      context: contexts/jenkins
+    volumes:
+      - /mnt/deploy:/deploy
+      - ./volumes/jenkins/start.sh:/opt/jenkins/start.sh:ro
+      - ./volumes/jenkins/wgetrc:/home/jenkins/.wgetrc:ro
+      - ./volumes/jenkins/war:/war
+    profiles: ["jenkins"]
 
-    integrationapi:
-        build:
-            context: contexts/integrationapi
-        volumes:
-          - ./volumes/tomcat-env:/tomcat-env
-        profiles: ["apis"]
+  # Scripts
+  scripts:
+    build:
+      context: contexts/scripts
+    profiles: ["scripts"]
 
-    studentapi:
-        build:
-            context: contexts/studentapi
-        volumes:
-          - ./volumes/tomcat-env:/tomcat-env
-        profiles: ["apis"]
+  # Monitoring
+  prometheus:
+    image: ubuntu/prometheus
+    volumes:
+      - ./conf/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus:/prometheus
+    profiles: ["metrics"]
 
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    profiles: ["metrics"]
 
-    # Jenkins
-    jenkins:
-        build:
-            context: contexts/jenkins
-        volumes:
-          - /mnt/deploy:/deploy
-          - ./volumes/jenkins/start.sh:/opt/jenkins/start.sh:ro
-          - ./volumes/jenkins/wgetrc:/home/jenkins/.wgetrc:ro
-          - ./volumes/jenkins/war:/war
-        profiles: ["jenkins"]
+  loki:
+    image: grafana/loki
+    ports:
+      - "127.0.0.1:3100:3100"
+    volumes:
+      - loki:/loki
+    profiles: ["metrics"]
 
-
-    # Scripts
-    scripts:
-        build:
-            context: contexts/scripts
-        profiles: ["scripts"]
-
-
-   # Monitoring
-    prometheus:
-        image: ubuntu/prometheus
-        volumes:
-          - ./conf/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-          - prometheus:/prometheus
-        profiles: ["metrics"]
-
-    cadvisor:
-        image: gcr.io/cadvisor/cadvisor:latest
-        volumes:
-            - /:/rootfs:ro
-            - /var/run:/var/run:rw
-            - /sys:/sys:ro
-            - /var/lib/docker/:/var/lib/docker:ro
-        profiles: ["metrics"]
-
-    loki:
-        image: grafana/loki
-        ports:
-          - "127.0.0.1:3100:3100"
-        volumes:
-          - loki:/loki
-        profiles: ["metrics"]
-
-    grafana:
-        image: grafana/grafana-oss
-        volumes:
-          - ./conf/prometheus-data-source.yml:/etc/grafana/provisioning/datasources/prometheus-data-source.yml:ro
-        environment:
-          GF_SERVER_ROOT_URL: "^BANNER9_ROOT^/grafana"
-          GF_SERVER_SERVE_FROM_SUB_PATH: "true"
-          GF_SECURITY_ADMIN_USER: "^GRAFANA_USER^"
-          GF_SECURITY_ADMIN_PASSWORD: "^GRAFANA_PASSWORD^"
-          GF_SECURITY_COOKIE_SECURE: "true"
-          GF_SMTP_ENABLED: "true"
-          GF_SMTP_HOST: "^GRAFANA_SMTP_HOST^"
-          GF_STARTTLS_POLICY: "MandatoryStartTLS"
-        ports:
-          - "3000:3000"
-        profiles: ["metrics"]
-
+  grafana:
+    image: grafana/grafana-oss
+    volumes:
+      - ./conf/prometheus-data-source.yml:/etc/grafana/provisioning/datasources/prometheus-data-source.yml:ro
+    environment:
+      GF_SERVER_ROOT_URL: "^BANNER9_ROOT^/grafana"
+      GF_SERVER_SERVE_FROM_SUB_PATH: "true"
+      GF_SECURITY_ADMIN_USER: "^GRAFANA_USER^"
+      GF_SECURITY_ADMIN_PASSWORD: "^GRAFANA_PASSWORD^"
+      GF_SECURITY_COOKIE_SECURE: "true"
+      GF_SMTP_ENABLED: "true"
+      GF_SMTP_HOST: "^GRAFANA_SMTP_HOST^"
+      GF_STARTTLS_POLICY: "MandatoryStartTLS"
+    ports:
+      - "3000:3000"
+    profiles: ["metrics"]
 
 volumes:
-    loki:
-    prometheus:
+  loki:
+  prometheus:
