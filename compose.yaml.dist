@@ -3,6 +3,10 @@ services:
     haproxy:
         build:
             context: contexts/haproxy
+        logging:
+            driver: loki
+            options:
+                loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
         ports:
             - "80:8080"
             - "443:8443"
@@ -133,8 +137,11 @@ services:
 
     loki:
         image: grafana/loki
+        ports:
+          - "127.0.0.1:3100:3100"
         volumes:
           - loki:/loki
+        profiles: ["metrics"]
 
     grafana:
         image: grafana/grafana-oss
