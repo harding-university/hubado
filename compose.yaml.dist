@@ -162,6 +162,5 @@ services:
 
 
 volumes:
-    grafana:
     loki:
     prometheus:
