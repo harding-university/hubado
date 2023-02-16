@@ -134,7 +134,7 @@ services:
     image: grafana/grafana-oss
     logging: *logging-loki
     volumes:
-      - ./conf/prometheus-data-source.yml:/etc/grafana/provisioning/datasources/prometheus-data-source.yml:ro
+      - ./conf/grafana-data-sources.yaml:/etc/grafana/provisioning/datasources/data-sources.yaml:ro
     environment:
       GF_SERVER_ROOT_URL: "^BANNER9_ROOT^/grafana"
       GF_SERVER_SERVE_FROM_SUB_PATH: "true"
