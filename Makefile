@@ -21,7 +21,7 @@ VPATH = conf vendor volumes/jenkins/war
 DOCKER_COMPOSE = docker compose -f compose.yaml
 
 # Which profiles come up and down automatically with make up, make stop, etc.
-AUTO_PROFILES = --profile endpoints --profile core
+AUTO_PROFILES = --profile endpoints --profile core --profile metrics
 
 
 ## Variable definitions ##
