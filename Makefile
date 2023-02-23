@@ -38,6 +38,7 @@ TOMCATS = \
 	financess \
 	general_ss \
 	integrationapi \
+	sss \
 	studentapi \
 
 # The preqeqs specified in the following definitions will be pulled from
@@ -65,6 +66,7 @@ CONTEXTS_WAR_PREREQS = \
 	contexts/financess/FinanceSelfService.war \
 	contexts/general_ss/BannerGeneralSsb.war \
 	contexts/integrationapi/IntegrationApi.war \
+	contexts/sss/StudentSelfService.war \
 	contexts/studentapi/StudentApi.war \
 
 # Miscellaneous additional prereq files
@@ -97,6 +99,7 @@ TOMCAT_DOCKERFILES = \
 	contexts/extz/Dockerfile \
 	contexts/financess/Dockerfile \
 	contexts/general_ss/Dockerfile \
+	contexts/sss/Dockerfile \
 
 # Include Makefile.local for environment-specific definitions and
 # configuration changes

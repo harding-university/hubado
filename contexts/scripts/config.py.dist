@@ -12,6 +12,7 @@ CONTEXT_APPS = {
     'financess': ['FinanceSelfService',],
     'general_ss': ['BannerGeneralSsb',],
     'integrationapi': ['IntegrationAPI',],
+    'sss': ['StudentSelfService',],
     'studentapi': ['StudentAPI',],
 }
 

@@ -62,6 +62,12 @@ services:
       context: contexts/general_ss
     profiles: ["ssb9"]
 
+  sss:
+    <<: *tomcat-service
+    build:
+      context: contexts/sss
+    profiles: ["ssb9"]
+
   # API services
   eeamc:
     <<: *tomcat-service
