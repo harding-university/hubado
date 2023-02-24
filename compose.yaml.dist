@@ -50,6 +50,12 @@ services:
       context: contexts/employee
     profiles: ["ssb9"]
 
+  facss:
+    <<: *tomcat-service
+    build:
+      context: contexts/facss
+    profiles: ["ssb9"]
+
   financess:
     <<: *tomcat-service
     build:
@@ -62,10 +68,22 @@ services:
       context: contexts/general_ss
     profiles: ["ssb9"]
 
+  geneventss:
+    <<: *tomcat-service
+    build:
+      context: contexts/geneventss
+    profiles: ["ssb9"]
+
   sss:
     <<: *tomcat-service
     build:
       context: contexts/sss
+    profiles: ["ssb9"]
+
+  sturegss:
+    <<: *tomcat-service
+    build:
+      context: contexts/sturegss
     profiles: ["ssb9"]
 
   # API services

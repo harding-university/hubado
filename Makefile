@@ -35,11 +35,14 @@ TOMCATS = \
 	eeamc \
 	employee \
 	extz \
+	facss \
 	financess \
 	general_ss \
+	geneventss \
 	integrationapi \
 	sss \
 	studentapi \
+	sturegss \
 
 # The preqeqs specified in the following definitions will be pulled from
 # the paths defiend in VPATHS above
@@ -63,11 +66,14 @@ CONTEXTS_WAR_PREREQS = \
 	contexts/bcm/CommunicationManagement.war \
 	contexts/employee/EmployeeSelfService.war \
 	contexts/extz/BannerExtensibility.war \
+	contexts/facss/FacultySelfService.war \
 	contexts/financess/FinanceSelfService.war \
 	contexts/general_ss/BannerGeneralSsb.war \
 	contexts/integrationapi/IntegrationApi.war \
+	contexts/geneventss/SelfServiceBannerGeneralEventManagement.war \
 	contexts/sss/StudentSelfService.war \
 	contexts/studentapi/StudentApi.war \
+	contexts/sturegss/StudentRegistrationSsb.war
 
 # Miscellaneous additional prereq files
 CONTEXTS_ADDITIONAL_PREREQS = \
@@ -97,9 +103,12 @@ TOMCAT_DOCKERFILES = \
 	contexts/bcm/Dockerfile \
 	contexts/employee/Dockerfile \
 	contexts/extz/Dockerfile \
+	contexts/facss/Dockerfile \
 	contexts/financess/Dockerfile \
 	contexts/general_ss/Dockerfile \
+	contexts/geneventss/Dockerfile \
 	contexts/sss/Dockerfile \
+	contexts/sturegss/Dockerfile \
 
 # Include Makefile.local for environment-specific definitions and
 # configuration changes
