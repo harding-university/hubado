@@ -87,6 +87,22 @@ services:
     profiles: ["ssb9"]
 
   # API services
+    bep:
+        build:
+            context: contexts/bep
+        depends_on:
+          - bep_rabbitmq
+        volumes:
+          - ./volumes/tomcat-env:/tomcat-env
+        profiles: ["apis"]
+    bep_rabbitmq:
+        image: rabbitmq
+        hostname: bep_rabbitmq
+        env_file: conf/bep_rabbitmq.env
+        volumes:
+          - ./volumes/bep_rabbitmq:/var/lib/rabbitmq
+        profiles: ["apis"]
+
   eeamc:
     <<: *tomcat-service
     build:
