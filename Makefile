@@ -32,6 +32,7 @@ TOMCATS = \
 	admincommon \
 	appnav \
 	bcm \
+	bep \
 	eeamc \
 	employee \
 	extz \
@@ -64,6 +65,7 @@ CONTEXTS_WAR_PREREQS = \
 	contexts/eeamc/ethosapimanagementcenter.war \
 	contexts/appnav/applicationNavigator.war \
 	contexts/bcm/CommunicationManagement.war \
+	contexts/bep/BannerEventPublisher.war \
 	contexts/employee/EmployeeSelfService.war \
 	contexts/extz/BannerExtensibility.war \
 	contexts/facss/FacultySelfService.war \
@@ -85,6 +87,7 @@ CONTEXTS_ADDITIONAL_PREREQS = \
 LOCAL_FILES = \
 	compose.yaml \
 	contexts/accessmgmt/Dockerfile \
+	contexts/bep/footer_bep.groovy \
 	contexts/eeamc/Dockerfile \
 	contexts/integrationapi/Dockerfile \
 	contexts/jenkins/Dockerfile \
@@ -95,12 +98,13 @@ LOCAL_FILES = \
 	volumes/jenkins/start.sh \
 	volumes/tomcat-env/env.properties \
 
-# These Dockerfiles will be build from the template Dockerfile for
+# These Dockerfiles will be built from the template Dockerfile for
 # Tomcat servers, contexts/scripts/Dockerfile_tomcat.j2
 TOMCAT_DOCKERFILES = \
 	contexts/admincommon/Dockerfile \
 	contexts/appnav/Dockerfile \
 	contexts/bcm/Dockerfile \
+	contexts/bep/Dockerfile \
 	contexts/employee/Dockerfile \
 	contexts/extz/Dockerfile \
 	contexts/facss/Dockerfile \
@@ -290,6 +294,12 @@ $(LOCAL_FILES): $$(@).dist Makefile.local
 	@sed -i "s/\^GRAFANA_USER\^/$(GRAFANA_USER)/" $@
 	@sed -i "s/\^GRAFANA_PASSWORD\^/$(GRAFANA_PASSWORD)/" $@
 	@sed -i "s/\^GRAFANA_SMTP_HOST\^/$(GRAFANA_SMTP_HOST)/" $@
+	@sed -i "s/\^EMS_USER\^/$(EMS_USER)/" $@
+	@sed -i "s/\^EMS_PASSWORD\^/$(EMS_PASSWORD)/" $@
+	@sed -i "s/\^EMS_ENCRYPTED_PASSWORD\^/$(EMS_ENCRYPTED_PASSWORD)/" $@
+	@sed -i "s/\^EMS_HOST\^/$(EMS_HOST)/" $@
+	@sed -i "s/\^CDCADMIN_PASSWORD\^/$(CDCADMIN_PASSWORD)/" $@
+	@sed -i "s/\^EVENTS_PASSWORD\^/$(EVENTS_PASSWORD)/" $@
 
 
 # This builds Tomcat Dockerfiles with the Dockerfile_tomcat.j2 template

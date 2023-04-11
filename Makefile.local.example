@@ -19,6 +19,14 @@ JENKINS_SECRET = secret
 ESM_WGET_USER = scripting
 ESM_WGET_PASSWORD = password
 
+EMS_USER = bep_rabbitmq
+EMS_PASSWORD = password
+EMS_ENCRYPTED_PASSWORD = see_bep_install_docs
+EMS_HOST = bep_events_host
+
+EVENTS_PASSWORD = password
+CDCADMIN_PASSWORD = password
+
 HUBADO_HOST_USER = hubado
 
 TIMEZONE = America/Chicago

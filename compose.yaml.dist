@@ -108,6 +108,24 @@ services:
       context: contexts/studentapi
     profiles: ["apis"]
 
+  # Ethos (besides APIs)
+  rabbitmq:
+    image: rabbitmq:3.9
+    environment:
+      EMS_HOST: "^EMS_HOST^"
+      EMS_USER: "^EMS_USER^"
+      EMS_PASSWORD: "^EMS_PASSWORD^"
+    logging: *logging-loki
+    volumes:
+      - ./conf/rabbitmq.conf:/etc/rabbitmq/conf.d/30-hubado.conf:ro
+    profiles: ["ethos"]
+
+  bep:
+    <<: *tomcat-service
+    build:
+      context: contexts/bep
+    profiles: ["ethos"]
+
   # Jenkins
   jenkins:
     build:

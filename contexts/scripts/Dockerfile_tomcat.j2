@@ -35,8 +35,13 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 COPY ["ojdbc8.jar", "/usr/local/tomcat/lib/"]
 
-COPY ["context.xml", "/usr/local/tomcat/conf/"]
-COPY ["server.xml", "/usr/local/tomcat/conf/"]
+{% if context == 'bep' %}
+    COPY ["bep_context.xml", "/usr/local/tomcat/conf/context.xml"]
+    COPY ["bep_server.xml", "/usr/local/tomcat/conf/server.xml"]
+{% else %}
+    COPY ["context.xml", "/usr/local/tomcat/conf/"]
+    COPY ["server.xml", "/usr/local/tomcat/conf/"]
+{% endif %}
 
 WORKDIR /usr/local/tomcat/webapps
 COPY --from=builder /build/ ./

@@ -1,0 +1,8 @@
+bep.app.server="TOMCAT"
+bep.message.broker="RABBITMQ"
+
+rabbitmq.host = "rabbitmq"
+rabbitmq.port = "5672"
+rabbitmq.userName = "^EMS_USER^"
+rabbitmq.password = "^EMS_ENCRYPTED_PASSWORD^"
+rabbitmq.virtualHostName = "^EMS_HOST^"

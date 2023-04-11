@@ -7,13 +7,17 @@ CONTEXT_APPS = {
     'admincommon': ['BannerAdmin', 'BannerAdmin.ws',],
     'extz': ['BannerExtensibility',],
     'bcm': ['CommunicationManagement',],
+    'bep': ['BannerEventPublisher',],
     'employee': ['EmployeeSelfService',],
     'eeamc': ['ethosapimanagementcenter',],
+    'facss': ['FacultySelfService',],
     'financess': ['FinanceSelfService',],
     'general_ss': ['BannerGeneralSsb',],
+    'geneventss': ['SelfServiceBannerGeneralEventManagement',],
     'integrationapi': ['IntegrationAPI',],
     'sss': ['StudentSelfService',],
     'studentapi': ['StudentAPI',],
+    'sturegss': ['StudentRegistrationSsb',],
 }
 
 
