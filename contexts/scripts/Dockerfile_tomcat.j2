@@ -12,11 +12,24 @@ WORKDIR /build
 
     WORKDIR /build/BannerAdmin.ws/WEB-INF/classes/
     COPY ["footer*.properties", "/tmp/"]
-    RUN cat /tmp/footer*.properties >> config.properties
-    RUN sed -i "s/<session-timeout>60<\/session-timeout>/<session-timeout>\${banner9.session_timeout}<\/session-timeout>/" ../web.xml
+    RUN cat /tmp/footer*.properties >> config.properties && \
+        sed -i "s/<session-timeout>60<\/session-timeout>/<session-timeout>\${banner9.session_timeout}<\/session-timeout>/" ../web.xml
+
+{% elif context in ['ema'] %}
+    COPY ["EllucianMessagingAdapter.zip", "."]
+    RUN unzip EllucianMessagingAdapter.zip && \
+        rm EllucianMessagingAdapter.zip && \
+        mv EllucianMessagingAdapter*/*.war EllucianMessagingAdapter.war && \
+        rm -fr `find * -type d` && \
+        unzip EllucianMessagingAdapter.war -d EllucianMessagingAdapter && \
+        rm EllucianMessagingAdapter.war
+
+    WORKDIR /build/EllucianMessagingAdapter/WEB-INF/
+
 {% else %}
     COPY ["{{ app_name }}.war", "."]
-    RUN unzip {{ app_name }}.war -d {{ app_name }}
+    RUN unzip {{ app_name }}.war -d {{ app_name }} && \
+        rm {{ app_name }}.war
 
     WORKDIR /build/{{ app_name }}/WEB-INF/classes/
     COPY ["footer*.groovy", "/tmp/"]
@@ -25,6 +38,7 @@ WORKDIR /build
     # (the file may not end with a newline)
     RUN echo >> {{ app_name }}_configuration.groovy && \
         cat /tmp/footer*.groovy >> {{ app_name }}_configuration.groovy
+
 {% endif %}
 
 
@@ -53,7 +67,7 @@ COPY --from=builder /build/ ./
 WORKDIR /usr/local/tomcat/
 COPY ["setenv.sh", "bin/setenv.sh"]
 
-RUN useradd tomcat && \
+RUN useradd tomcat -u {{ hubado_host_uid }} && \
     mkdir /usr/local/tomcat/build && \
     chown -R tomcat.tomcat /usr/local/tomcat/build && \
     chown -R tomcat.tomcat /usr/local/tomcat/logs && \
@@ -61,6 +75,11 @@ RUN useradd tomcat && \
     chown -R tomcat.tomcat /usr/local/tomcat/work && \
     # setenv.sh, which runs as tomcat at startup, modifies this file
     chown tomcat.tomcat /usr/local/tomcat/conf/catalina.properties
+
+{% if context == 'ema' %}
+RUN chown tomcat.tomcat /usr/local/tomcat/webapps/EllucianMessagingAdapter/WEB-INF/emsConfig.xml
+{% endif %}
+
 USER tomcat
 
 {% if context in ['appnav',] %}

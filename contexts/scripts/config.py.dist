@@ -8,6 +8,7 @@ CONTEXT_APPS = {
     'extz': ['BannerExtensibility',],
     'bcm': ['CommunicationManagement',],
     'bep': ['BannerEventPublisher',],
+    'ema': ['EllucianMessagingAdapter',],
     'employee': ['EmployeeSelfService',],
     'eeamc': ['ethosapimanagementcenter',],
     'facss': ['FacultySelfService',],
@@ -22,4 +23,5 @@ CONTEXT_APPS = {
 
 
 BANNER9_ROOT = "^BANNER9_ROOT^"
+HUBADO_HOST_UID = ^HUBADO_HOST_UID^
 TIMEZONE = "^TIMEZONE^"

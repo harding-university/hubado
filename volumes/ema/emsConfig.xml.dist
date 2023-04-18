@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<emsConfig>
+  <clientErpType>Banner</clientErpType>
+  <configId>ETHOS-INTEGRATION</configId>
+  <amqpUsername>^EMS_USER^</amqpUsername>
+  <amqpPassword>^EMS_PASSWORD^</amqpPassword>
+  <bannerStudentConfig>
+    <baseUrl>^BANNER9_ROOT^/StudentApi/api</baseUrl>
+    <username>^API_USER_USER^</username>
+    <password>^API_USER_PASSWORD^</password>
+    <apiKeys>
+      <apiKey>
+        <hubApiKey>^ETHOS_INTEGRATION_KEY^</hubApiKey>
+      </apiKey>
+    </apiKeys>
+  </bannerStudentConfig>
+  <bannerIntegrationConfig>
+    <baseUrl>^BANNER9_ROOT^/IntegrationApi/api</baseUrl>
+    <username>^API_USER_USER^</username>
+    <password>^API_USER_PASSWORD^</password>
+    <apiKeys>
+      <apiKey>
+        <hubApiKey>^ETHOS_INTEGRATION_KEY^</hubApiKey>
+      </apiKey>
+    </apiKeys>
+  </bannerIntegrationConfig>
+</emsConfig>

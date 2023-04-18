@@ -126,6 +126,17 @@ services:
       context: contexts/bep
     profiles: ["ethos"]
 
+  ema:
+    <<: *tomcat-service
+    build:
+      context: contexts/ema
+    environment:
+      EMA_CONFIG: ^EMA_KEY^
+    volumes:
+      - ./volumes/ema/emsConfig.xml:/usr/local/tomcat/webapps/EllucianMessagingAdapter/WEB-INF/emsConfig.xml:rw
+      - ./volumes/tomcat-env:/tomcat-env
+    profiles: ["ethos"]
+
   # Jenkins
   jenkins:
     build:

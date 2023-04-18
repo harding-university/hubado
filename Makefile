@@ -34,6 +34,7 @@ TOMCATS = \
 	bcm \
 	bep \
 	eeamc \
+	ema \
 	employee \
 	extz \
 	facss \
@@ -75,11 +76,12 @@ CONTEXTS_WAR_PREREQS = \
 	contexts/geneventss/SelfServiceBannerGeneralEventManagement.war \
 	contexts/sss/StudentSelfService.war \
 	contexts/studentapi/StudentApi.war \
-	contexts/sturegss/StudentRegistrationSsb.war
+	contexts/sturegss/StudentRegistrationSsb.war \
 
 # Miscellaneous additional prereq files
 CONTEXTS_ADDITIONAL_PREREQS = \
 	contexts/extz/xdb6.jar \
+	contexts/ema/EllucianMessagingAdapter.zip \
 
 # "Local" is the Hubado term for files generated from .dist template
 # files; files specified will automatically be created from a
@@ -94,6 +96,7 @@ LOCAL_FILES = \
 	contexts/scripts/config.py \
 	contexts/scripts/Dockerfile \
 	contexts/studentapi/Dockerfile \
+	volumes/ema/emsConfig.xml \
 	volumes/jenkins/wgetrc \
 	volumes/jenkins/start.sh \
 	volumes/tomcat-env/env.properties \
@@ -105,6 +108,7 @@ TOMCAT_DOCKERFILES = \
 	contexts/appnav/Dockerfile \
 	contexts/bcm/Dockerfile \
 	contexts/bep/Dockerfile \
+	contexts/ema/Dockerfile \
 	contexts/employee/Dockerfile \
 	contexts/extz/Dockerfile \
 	contexts/facss/Dockerfile \
@@ -242,7 +246,7 @@ test:
 
 
 # Builds the scripts service; used in building other contexts
-scripts: scripts-context
+scripts: scripts-context user
 	$(DOCKER_COMPOSE) build scripts
 
 
@@ -259,6 +263,10 @@ contexts: $(CONTEXTS_ADDITIONAL_PREREQS)
 contexts: $(LOCAL_FILES)
 contexts: scripts
 contexts: $(TOMCAT_DOCKERFILES)
+
+
+contexts/ema/EllucianMessagingAdapter.zip:
+	cp vendor/EllucianMessagingAdapter*.zip $@
 
 
 # This rule says to copy any prereq within contexts/ from the `VPATH` directories 
@@ -300,6 +308,10 @@ $(LOCAL_FILES): $$(@).dist Makefile.local
 	@sed -i "s/\^EMS_HOST\^/$(EMS_HOST)/" $@
 	@sed -i "s/\^CDCADMIN_PASSWORD\^/$(CDCADMIN_PASSWORD)/" $@
 	@sed -i "s/\^EVENTS_PASSWORD\^/$(EVENTS_PASSWORD)/" $@
+	@sed -i "s/\^EMA_KEY\^/$(EMA_KEY)/" $@
+	@sed -i "s/\^API_USER_USER\^/$(API_USER_USER)/" $@
+	@sed -i "s/\^API_USER_PASSWORD\^/$(API_USER_PASSWORD)/" $@
+	@sed -i "s/\^ETHOS_INTEGRATION_KEY\^/$(ETHOS_INTEGRATION_KEY)/" $@
 
 
 # This builds Tomcat Dockerfiles with the Dockerfile_tomcat.j2 template

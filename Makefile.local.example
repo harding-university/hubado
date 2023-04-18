@@ -27,6 +27,13 @@ EMS_HOST = bep_events_host
 EVENTS_PASSWORD = password
 CDCADMIN_PASSWORD = password
 
+API_USER_USER = api_user
+API_USER_PASSWORD = password
+
+ETHOS_INTEGRATION_KEY = xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+EMA_KEY = random_string
+
 HUBADO_HOST_USER = hubado
 
 TIMEZONE = America/Chicago

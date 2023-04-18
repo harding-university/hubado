@@ -18,6 +18,7 @@ contexts/*/*.sh
 contexts/*/*.xml
 contexts/*/footer_*.groovy
 
+contexts/ema/EllucianMessagingAdapter.zip
 contexts/scripts/config.py
 
 __pycache__/
