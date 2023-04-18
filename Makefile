@@ -82,6 +82,8 @@ CONTEXTS_WAR_PREREQS = \
 CONTEXTS_ADDITIONAL_PREREQS = \
 	contexts/extz/xdb6.jar \
 	contexts/ema/EllucianMessagingAdapter.zip \
+	contexts/integrationapi/footer_api.groovy \
+	contexts/studentapi/footer_api.groovy \
 
 # "Local" is the Hubado term for files generated from .dist template
 # files; files specified will automatically be created from a
@@ -312,6 +314,7 @@ $(LOCAL_FILES): $$(@).dist Makefile.local
 	@sed -i "s/\^API_USER_USER\^/$(API_USER_USER)/" $@
 	@sed -i "s/\^API_USER_PASSWORD\^/$(API_USER_PASSWORD)/" $@
 	@sed -i "s/\^ETHOS_INTEGRATION_KEY\^/$(ETHOS_INTEGRATION_KEY)/" $@
+	@sed -i "s/\^ETHOS_STUDENT_KEY\^/$(ETHOS_STUDENT_KEY)/" $@
 
 
 # This builds Tomcat Dockerfiles with the Dockerfile_tomcat.j2 template

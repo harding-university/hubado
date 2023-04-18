@@ -6,9 +6,10 @@ WORKDIR /build
 COPY ["IntegrationApi.war", "."]
 RUN unzip IntegrationApi.war -d IntegrationApi
 
-COPY ["banner_configuration.groovy.patch", "/tmp"]
-RUN patch -i /tmp/banner_configuration.groovy.patch \
-        IntegrationApi/WEB-INF/classes/banner_configuration.groovy
+WORKDIR /build/IntegrationApi/WEB-INF/classes/
+COPY ["footer*.groovy", "/tmp/"]
+RUN echo >> banner_configuration.groovy && \
+    cat /tmp/footer_api.groovy >> banner_configuration.groovy
 
 FROM tomcat:8.5-jre8-openjdk
 
