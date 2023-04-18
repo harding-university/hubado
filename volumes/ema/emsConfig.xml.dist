@@ -10,7 +10,7 @@
     <password>^API_USER_PASSWORD^</password>
     <apiKeys>
       <apiKey>
-        <hubApiKey>^ETHOS_INTEGRATION_KEY^</hubApiKey>
+        <hubApiKey>^ETHOS_STUDENT_KEY^</hubApiKey>
       </apiKey>
     </apiKeys>
   </bannerStudentConfig>
