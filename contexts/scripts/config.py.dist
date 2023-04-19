@@ -15,9 +15,9 @@ CONTEXT_APPS = {
     'financess': ['FinanceSelfService',],
     'general_ss': ['BannerGeneralSsb',],
     'geneventss': ['SelfServiceBannerGeneralEventManagement',],
-    'integrationapi': ['IntegrationAPI',],
+    'integrationapi': ['IntegrationApi',],
     'sss': ['StudentSelfService',],
-    'studentapi': ['StudentAPI',],
+    'studentapi': ['StudentApi',],
     'sturegss': ['StudentRegistrationSsb',],
 }
 
