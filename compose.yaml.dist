@@ -3,10 +3,6 @@ services:
   haproxy:
     build:
       context: contexts/haproxy
-    logging: &logging-loki
-      driver: loki
-      options:
-        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
     ports:
       - "80:8080"
       - "443:8443"
@@ -18,7 +14,6 @@ services:
   accessmgmt: &tomcat-service
     build:
       context: contexts/accessmgmt
-    logging: *logging-loki
     volumes:
       - ./volumes/tomcat-env:/tomcat-env
     profiles: ["core"]
@@ -115,7 +110,6 @@ services:
       EMS_HOST: "^EMS_HOST^"
       EMS_USER: "^EMS_USER^"
       EMS_PASSWORD: "^EMS_PASSWORD^"
-    logging: *logging-loki
     volumes:
       - ./conf/rabbitmq.conf:/etc/rabbitmq/conf.d/30-hubado.conf:ro
     profiles: ["ethos"]
@@ -152,13 +146,11 @@ services:
   scripts:
     build:
       context: contexts/scripts
-    logging: *logging-loki
     profiles: ["scripts"]
 
   # Monitoring
   prometheus:
     image: ubuntu/prometheus
-    logging: *logging-loki
     volumes:
       - ./conf/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus:/prometheus
@@ -166,7 +158,6 @@ services:
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
-    logging: *logging-loki
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
@@ -176,7 +167,6 @@ services:
 
   loki:
     image: grafana/loki
-    logging: *logging-loki
     ports:
       - "127.0.0.1:3100:3100"
     volumes:
@@ -185,7 +175,6 @@ services:
 
   grafana:
     image: grafana/grafana-oss
-    logging: *logging-loki
     volumes:
       - ./conf/grafana-data-sources.yaml:/etc/grafana/provisioning/datasources/data-sources.yaml:ro
     environment:
