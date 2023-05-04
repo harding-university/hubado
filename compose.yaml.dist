@@ -131,6 +131,11 @@ services:
       - ./volumes/tomcat-env:/tomcat-env
     profiles: ["ethos"]
 
+  # SSB8
+  ssb8:
+    build:
+      context: contexts/ssb8
+
   # Jenkins
   jenkins:
     build:
