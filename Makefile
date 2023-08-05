@@ -51,6 +51,7 @@ TOMCATS = \
 
 # List of stock tomcat prereqs, given to every tomcat context
 TOMCAT_PREREQS = \
+	banner_configuration.groovy \
 	context.xml \
 	footer.groovy \
 	ojdbc8.jar \
@@ -93,11 +94,9 @@ LOCAL_FILES = \
 	contexts/accessmgmt/Dockerfile \
 	contexts/bep/footer_bep.groovy \
 	contexts/eeamc/Dockerfile \
-	contexts/integrationapi/Dockerfile \
 	contexts/jenkins/Dockerfile \
 	contexts/scripts/config.py \
 	contexts/scripts/Dockerfile \
-	contexts/studentapi/Dockerfile \
 	volumes/ema/emsConfig.xml \
 	volumes/jenkins/wgetrc \
 	volumes/jenkins/start.sh \
@@ -117,7 +116,9 @@ TOMCAT_DOCKERFILES = \
 	contexts/financess/Dockerfile \
 	contexts/general_ss/Dockerfile \
 	contexts/geneventss/Dockerfile \
+	contexts/integrationapi/Dockerfile \
 	contexts/sss/Dockerfile \
+	contexts/studentapi/Dockerfile \
 	contexts/sturegss/Dockerfile \
 
 # Include Makefile.local for environment-specific definitions and
@@ -227,6 +228,7 @@ clean:
 	rm -f contexts/*/xdb6.jar
 	rm -f contexts/*/*.trz
 	rm -f contexts/*/footer.groovy
+	rm -f contexts/*/banner_configuration.groovy
 	rm -f $(CONTEXTS_WAR_PREREQS)
 	rm -f $(CONTEXTS_ADDITIONAL_PREREQS)
 	rm -f $(LOCAL_FILES)

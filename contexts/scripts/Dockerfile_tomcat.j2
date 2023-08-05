@@ -34,10 +34,19 @@ WORKDIR /build
     WORKDIR /build/{{ app_name }}/WEB-INF/classes/
     COPY ["footer*.groovy", "/tmp/"]
     RUN sed -i "s,\^APP_NAME\^,{{ app_name }}," /tmp/footer.groovy
-    # echo a newline to the .groovy file before the adding the footer
-    # (the file may not end with a newline)
-    RUN echo >> {{ app_name }}_configuration.groovy && \
-        cat /tmp/footer*.groovy >> {{ app_name }}_configuration.groovy
+
+    {% if app_name.endswith('api') %}
+        # echo a newline to the .groovy file before the adding the footer
+        # (the file may not end with a newline)
+        RUN echo >> {{ app_name }}_configuration.groovy && \
+            cat /tmp/footer*.groovy >> {{ app_name }}_configuration.groovy
+    {% else %}
+        RUN echo >> {{ app_name }}_configuration.groovy && \
+            cat /tmp/footer_api.groovy >> {{ app_name }}_configuration.groovy
+    {% endif %}
+
+    COPY ["banner_configuration.groovy", "/tmp/"] && \
+        cat /tmp/banner_configuration.groovy >> banner_configuration.groovy
 
 {% endif %}
 
@@ -82,7 +91,9 @@ RUN chown tomcat.tomcat /usr/local/tomcat/webapps/EllucianMessagingAdapter/WEB-I
 
 USER tomcat
 
+ENV CATALINA_OPTS="-DBANNER_APP_CONFIG=/usr/local/tomcat/webapps/{{ app_name }}/WEB-INF/classes/banner_configuration.groovy"
+
 {% if context in ['appnav',] %}
     COPY ["limits.conf", "/etc/security/limits.conf"]
-    ENV CATALINA_OPTS="-server -Xms8g -Xmx8g -Doracle.jdbc.autoCommitSpecCompliant=false"
+    ENV CATALINA_OPTS="$CATALINA_OPTS -server -Xms8g -Xmx8g -Doracle.jdbc.autoCommitSpecCompliant=false"
 {% endif %}

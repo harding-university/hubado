@@ -17,6 +17,7 @@ contexts/*/*.jar
 contexts/*/*.sh
 contexts/*/*.xml
 contexts/*/footer_*.groovy
+contexts/*/banner_configuration.groovy
 
 contexts/ema/EllucianMessagingAdapter.zip
 contexts/scripts/config.py
