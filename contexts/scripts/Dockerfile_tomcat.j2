@@ -35,7 +35,7 @@ WORKDIR /build
     COPY ["footer*.groovy", "/tmp/"]
     RUN sed -i "s,\^APP_NAME\^,{{ app_name }}," /tmp/footer.groovy
 
-    {% if app_name.endswith('api') %}
+    {% if context.endswith('api') %}
         # echo a newline to the .groovy file before the adding the footer
         # (the file may not end with a newline)
         RUN echo >> {{ app_name }}_configuration.groovy && \
