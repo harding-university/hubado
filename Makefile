@@ -21,7 +21,7 @@ VPATH = conf vendor volumes/jenkins/war
 DOCKER_COMPOSE = docker compose -f compose.yaml
 
 # Which profiles come up and down automatically with make up, make stop, etc.
-AUTO_PROFILES = --profile endpoints --profile core --profile metrics
+AUTO_PROFILES = --profile endpoints --profile core
 
 
 ## Variable definitions ##
@@ -213,11 +213,6 @@ apis:
 
 ssb9:
 	$(DOCKER_COMPOSE) --profile ssb9 up -d
-
-
-metrics: contexts
-	scripts/install-loki-docker-driver.sh
-	$(DOCKER_COMPOSE) --profile metrics up -d
 
 
 clean:
