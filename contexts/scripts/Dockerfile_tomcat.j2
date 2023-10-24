@@ -95,7 +95,9 @@ USER tomcat
 
 ENV CATALINA_OPTS="-DBANNER_APP_CONFIG=/usr/local/tomcat/webapps/{{ app_name }}/WEB-INF/classes/banner_configuration.groovy"
 
+ENV CATALINA_OPTS="$CATALINA_OPTS -Doracle.jdbc.autoCommitSpecCompliant=false"
+
 {% if context in ['appnav',] %}
     COPY ["limits.conf", "/etc/security/limits.conf"]
-    ENV CATALINA_OPTS="$CATALINA_OPTS -server -Xms8g -Xmx8g -Doracle.jdbc.autoCommitSpecCompliant=false"
+    ENV CATALINA_OPTS="$CATALINA_OPTS -server -Xms8g -Xmx8g"
 {% endif %}
