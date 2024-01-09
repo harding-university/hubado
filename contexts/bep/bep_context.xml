@@ -23,4 +23,8 @@
         name="jdbc/cdcadmin"
         type="javax.sql.DataSource"
     />
+
+    <!--Disables Tomcat Webserver StatementCache caching per CR-000158388-->
+    <Resources cachingAllowed="false" cacheMaxSize="0" />
+
 </Context>
