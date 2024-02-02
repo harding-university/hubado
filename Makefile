@@ -325,8 +325,8 @@ $(TOMCAT_DOCKERFILES): \
 
 # This creates the user that is used within the containers
 user:
-	useradd -r $(HUBADO_HOST_USER) || true
-	chown -R $(HUBADO_HOST_USER) volumes/
+	sudo useradd -r $(HUBADO_HOST_USER) || true
+	sudo chown -R $(HUBADO_HOST_USER) volumes/
 
 
 # vim: set noexpandtab sts=0:
