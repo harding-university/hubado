@@ -14,6 +14,8 @@ WORKDIR /build
     COPY ["footer*.properties", "/tmp/"]
     RUN cat /tmp/footer*.properties >> config.properties && \
         sed -i "s/<session-timeout>60<\/session-timeout>/<session-timeout>\${banner9.session_timeout}<\/session-timeout>/" ../web.xml
+		sed -i -e '/<!--\s*<init-param>/,/<\/init-param>\s*-->/ s/<!--\s*//; s/\s*-->//' -e "s|<param-value>ellucian.com:8080/\(.*\)/status</param-value>|<param-value>{{BANNER9_ROOT}}/\1/status</param-value>|g" -e "s|<param-value>ellucian.com|<param-value>{{BANNER9_ROOT}}|g" ../web.xml
+
 
 {% elif context in ['ema'] %}
     COPY ["EllucianMessagingAdapter.zip", "."]
@@ -34,6 +36,12 @@ WORKDIR /build
     WORKDIR /build/{{ app_name }}/WEB-INF/classes/
     COPY ["footer*.groovy", "/tmp/"]
     RUN sed -i "s,\^APP_NAME\^,{{ app_name }}," /tmp/footer.groovy
+	
+	{% if context in ['accessmgmt'] %}
+	    RUN sed -i "s/<session-timeout>60<\/session-timeout>/<session-timeout>\${banner9.session_timeout}<\/session-timeout>/" ../web.xml
+		RUN sed -i -e '/<!--\s*<init-param>/,/<\/init-param>\s*-->/ s/<!--\s*//; s/\s*-->//' -e "s|<param-value>ellucian.com:8080/\(.*\)/status</param-value>|<param-value>{{BANNER9_ROOT}}/\1/status</param-value>|g" -e "s|<param-value>ellucian.com|<param-value>{{BANNER9_ROOT}}|g" ../web.xml
+
+	{% endif %}
 
     {% if context.endswith('api') %}
         # echo a newline to the .groovy file before the adding the footer
