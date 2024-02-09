@@ -5,18 +5,20 @@ import sys
 
 from jinja2 import Template
 
-from config import CONTEXT_APPS, HUBADO_HOST_UID, TIMEZONE
+from config import CONTEXT_APPS, BANNER9_ROOT, HUBADO_HOST_UID, TIMEZONE
 
 
 dockerfile_path = sys.argv[1]
 context = re.match(r"contexts/(.*)/Dockerfile", dockerfile_path).groups()[0]
 
-with open("/usr/local/share/Dockerfile_tomcat.j2") as f:
-    template = Template(f.read())
-
 app_name = CONTEXT_APPS[context][0]
+workspace_name = CONTEXT_APPS[context].get(1, "")
+
 hubado_host_uid = HUBADO_HOST_UID
 timezone = TIMEZONE
+
+with open("/usr/local/share/Dockerfile_tomcat.j2") as f:
+    template = Template(f.read())
 
 print(
     template.render(
@@ -24,5 +26,6 @@ print(
         context=context,
         hubado_host_uid=hubado_host_uid,
         timezone=timezone,
+        workspace_name=workspace_name,
     )
 )
