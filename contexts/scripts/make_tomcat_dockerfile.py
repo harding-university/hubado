@@ -12,10 +12,6 @@ dockerfile_path = sys.argv[1]
 context = re.match(r"contexts/(.*)/Dockerfile", dockerfile_path).groups()[0]
 
 app_name = CONTEXT_APPS[context][0]
-try:
-    workspace_name = CONTEXT_APPS[context][1]
-except IndexError:
-    workspace_name = ""
 
 hubado_host_uid = HUBADO_HOST_UID
 timezone = TIMEZONE
@@ -29,6 +25,5 @@ print(
         context=context,
         hubado_host_uid=hubado_host_uid,
         timezone=timezone,
-        workspace_name=workspace_name,
     )
 )
