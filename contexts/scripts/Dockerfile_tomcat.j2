@@ -13,7 +13,7 @@ WORKDIR /build
     WORKDIR /build/BannerAdmin.ws/WEB-INF/classes/
     COPY ["footer*.properties", "/tmp/"]
     RUN cat /tmp/footer*.properties >> config.properties && \
-        sed -i "s/<session-timeout>60<\/session-timeout>/<session-timeout>\${banner9.session_timeout}<\/session-timeout>/" ../web.xml
+        sed -i "s/<session-timeout>60<\/session-timeout>/<session-timeout>\${banner9.session_timeout}<\/session-timeout>/" ../web.xml && \
         sed -i -e 's|ellucian.com:8080/worksp.ws|ellucian.com:8080/{{ workspace_name }}|g' \
             -e "s|<param-value>ellucian.com|<param-value>{{ BANNER9_ROOT }}|g" \
             -e '/<!--\(\s*<init-param>\)/,/<\/init-param>\(\s*-->\)/ s/<!--\(\s*\)/\1/; s/\(\s*-->\)//' ../web.xml
@@ -40,10 +40,10 @@ WORKDIR /build
     RUN sed -i "s,\^APP_NAME\^,{{ app_name }}," /tmp/footer.groovy
 
     {% if context in ['accessmgmt'] %}
-        RUN sed -i "s/<session-timeout>60<\/session-timeout>/<session-timeout>\${banner9.session_timeout}<\/session-timeout>/" ../web.xml
-        sed -i -e 's|ellucian.com:8080/worksp.ws|ellucian.com:8080/{{ workspace_name }}|g' \
-            -e "s|<param-value>ellucian.com|<param-value>{{ BANNER9_ROOT }}|g" \
-            -e '/<!--\(\s*<init-param>\)/,/<\/init-param>\(\s*-->\)/ s/<!--\(\s*\)/\1/; s/\(\s*-->\)//' ../web.xml
+        RUN sed -i "s/<session-timeout>60<\/session-timeout>/<session-timeout>\${banner9.session_timeout}<\/session-timeout>/" ../web.xml && \
+            sed -i -e 's|ellucian.com:8080/worksp.ws|ellucian.com:8080/{{ workspace_name }}|g' \
+                -e "s|<param-value>ellucian.com|<param-value>{{ BANNER9_ROOT }}|g" \
+                -e '/<!--\(\s*<init-param>\)/,/<\/init-param>\(\s*-->\)/ s/<!--\(\s*\)/\1/; s/\(\s*-->\)//' ../web.xml
     {% endif %}
 
     {% if context.endswith('api') %}
