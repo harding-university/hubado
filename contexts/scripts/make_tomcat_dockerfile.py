@@ -12,18 +12,13 @@ dockerfile_path = sys.argv[1]
 context = re.match(r"contexts/(.*)/Dockerfile", dockerfile_path).groups()[0]
 
 app_name = CONTEXT_APPS[context][0]
-if len(CONTEXT_APPS[context]) > 1:
-    worksp_name = CONTEXT_APPS[context][1]
-else:
-    # Handle the case where there is only one element in the array
-    worksp_name = ''
+workspace_name = CONTEXT_APPS[context].get(1, "")
+
 hubado_host_uid = HUBADO_HOST_UID
 timezone = TIMEZONE
 
 with open("/usr/local/share/Dockerfile_tomcat.j2") as f:
     template = Template(f.read())
-
-
 
 print(
     template.render(
@@ -31,5 +26,6 @@ print(
         context=context,
         hubado_host_uid=hubado_host_uid,
         timezone=timezone,
+        workspace_name=workspace_name,
     )
 )
