@@ -58,7 +58,7 @@ WORKDIR /build
 {% endif %}
 
 
-FROM tomcat:8.5-jre8-openjdk
+FROM tomcat:9-jre8-openjdk
 
 ENV TZ={{ timezone }}
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
