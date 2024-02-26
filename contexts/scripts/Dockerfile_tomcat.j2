@@ -105,4 +105,8 @@ ENV CATALINA_OPTS="$CATALINA_OPTS -Doracle.jdbc.autoCommitSpecCompliant=false"
 {% if context in ['appnav',] %}
     COPY ["limits.conf", "/etc/security/limits.conf"]
     ENV CATALINA_OPTS="$CATALINA_OPTS -server -Xms8g -Xmx8g"
+{% elif context in ['admincommon',] %}
+    ENV CATALINA_OPTS="$CATALINA_OPTS -server -Xms20g -Xmx20g"
+{% else %}
+    ENV CATALINA_OPTS="$CATALINA_OPTS -server -Xmx4g"
 {% endif %}

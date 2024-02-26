@@ -17,46 +17,26 @@ services:
     volumes:
       - ./volumes/tomcat-env:/tomcat-env
     profiles: ["core"]
-    deploy:
-      resources:
-        limits:
-          memory: 2G
 
   admincommon:
     <<: *tomcat-service
     build:
       context: contexts/admincommon
-    deploy:
-      resources:
-        limits:
-          memory: 18G
 
   appnav:
     <<: *tomcat-service
     build:
       context: contexts/appnav
-    deploy:
-      resources:
-        limits:
-          memory: 7G
 
   bcm:
     <<: *tomcat-service
     build:
       context: contexts/bcm
-    deploy:
-      resources:
-        limits:
-          memory: 3G
 
   extz:
     <<: *tomcat-service
     build:
       context: contexts/extz
-    deploy:
-      resources:
-        limits:
-          memory: 7G
 
   # SSB9
   employee:
@@ -64,70 +44,42 @@ services:
     build:
       context: contexts/employee
     profiles: ["ssb9"]
-    deploy:
-      resources:
-        limits:
-          memory: 4G
 
   facss:
     <<: *tomcat-service
     build:
       context: contexts/facss
     profiles: ["ssb9"]
-    deploy:
-      resources:
-        limits:
-          memory: 6G
 
   financess:
     <<: *tomcat-service
     build:
       context: contexts/financess
     profiles: ["ssb9"]
-    deploy:
-      resources:
-        limits:
-          memory: 4G
 
   general_ss:
     <<: *tomcat-service
     build:
       context: contexts/general_ss
     profiles: ["ssb9"]
-    deploy:
-      resources:
-        limits:
-          memory: 4G
 
   geneventss:
     <<: *tomcat-service
     build:
       context: contexts/geneventss
     profiles: ["ssb9"]
-    deploy:
-      resources:
-        limits:
-          memory: 4G
 
   sss:
     <<: *tomcat-service
     build:
       context: contexts/sss
     profiles: ["ssb9"]
-    deploy:
-      resources:
-        limits:
-          memory: 6G
 
   sturegss:
     <<: *tomcat-service
     build:
       context: contexts/sturegss
     profiles: ["ssb9"]
-    deploy:
-      resources:
-        limits:
-          memory: 5G
 
   # API services
   eeamc:
@@ -138,30 +90,18 @@ services:
       - ./volumes/tomcat-env:/tomcat-env
       - ./volumes/eeamc-configs/:/configs
     profiles: ["apis"]
-    deploy:
-      resources:
-        limits:
-          memory: 2G
 
   integrationapi:
     <<: *tomcat-service
     build:
       context: contexts/integrationapi
     profiles: ["apis"]
-    deploy:
-      resources:
-        limits:
-          memory: 5G
 
   studentapi:
     <<: *tomcat-service
     build:
       context: contexts/studentapi
     profiles: ["apis"]
-    deploy:
-      resources:
-        limits:
-          memory: 6G
 
   # Ethos (besides APIs)
   rabbitmq:
@@ -179,10 +119,6 @@ services:
     build:
       context: contexts/bep
     profiles: ["ethos"]
-    deploy:
-      resources:
-        limits:
-          memory: 6G
 
   ema:
     <<: *tomcat-service
@@ -194,10 +130,6 @@ services:
       - ./volumes/ema/emsConfig.xml:/usr/local/tomcat/webapps/EllucianMessagingAdapter/WEB-INF/emsConfig.xml:rw
       - ./volumes/tomcat-env:/tomcat-env
     profiles: ["ethos"]
-    deploy:
-      resources:
-        limits:
-          memory: 2G
 
   # Jenkins
   jenkins:
