@@ -109,7 +109,7 @@ services:
       context: contexts/bpapi
     volumes:
       - ./volumes/tomcat-env:/tomcat-env
-      - ./volumes/admin-api-app-data:/admin-api-app-data
+      - ./volumes/admin-api-app-data:/admin-api-app-data:ro
     profiles: ["apis"]
 
   # Ethos (besides APIs)
