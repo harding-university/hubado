@@ -14,6 +14,7 @@ WORKDIR /build
     COPY ["footer*.properties", "/tmp/"]
     RUN cat /tmp/footer*.properties >> config.properties && \
         sed -i "s/<session-timeout>60<\/session-timeout>/<session-timeout>\${banner9.session_timeout}<\/session-timeout>/" ../web.xml
+    RUN sed -i '/<bean id="ticketValidator" class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">/,/^<\/bean>/s/Cas20ServiceTicketValidator/Saml11TicketValidator/;s/^<\/bean>$/<property name="tolerance" value="1000" \/>\n<\/bean>/g' ../applicationContext.xml
 
 
 {% elif context in ['ema'] %}
