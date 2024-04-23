@@ -33,6 +33,7 @@ TOMCATS = \
 	appnav \
 	bcm \
 	bep \
+	bpapi \
 	eeamc \
 	ema \
 	employee \
@@ -68,6 +69,7 @@ CONTEXTS_WAR_PREREQS = \
 	contexts/appnav/applicationNavigator.war \
 	contexts/bcm/CommunicationManagement.war \
 	contexts/bep/BannerEventPublisher.war \
+	contexts/bpapi/BannerAdminBPAPI.war \
 	contexts/employee/EmployeeSelfService.war \
 	contexts/extz/BannerExtensibility.war \
 	contexts/facss/FacultySelfService.war \
@@ -109,6 +111,7 @@ TOMCAT_DOCKERFILES = \
 	contexts/appnav/Dockerfile \
 	contexts/bcm/Dockerfile \
 	contexts/bep/Dockerfile \
+	contexts/bpapi/Dockerfile \
 	contexts/ema/Dockerfile \
 	contexts/employee/Dockerfile \
 	contexts/extz/Dockerfile \

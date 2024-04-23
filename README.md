@@ -31,10 +31,11 @@ released under the [MIT license](LICENSE).*
     -   Admin Common
     -   Application Navigator
     -   Communication Management
-    -   Ellucian Ethos API Management Center (beta)
+    -   Ellucian Ethos API Management Center
     -   Extensibility
-    -   Integration API (beta)
-    -   Student API (beta)
+    -   Integration API
+    -   Student API
+    -   Business Process API (beta)
     -   ...and more to come!
 
 

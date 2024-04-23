@@ -103,6 +103,15 @@ services:
       context: contexts/studentapi
     profiles: ["apis"]
 
+  bpapi:
+    <<: *tomcat-service
+    build:
+      context: contexts/bpapi
+    volumes:
+      - ./volumes/tomcat-env:/tomcat-env
+      - ./volumes/admin-api-app-data:/admin-api-app-data
+    profiles: ["apis"]
+
   # Ethos (besides APIs)
   rabbitmq:
     image: rabbitmq:3.9
@@ -140,6 +149,7 @@ services:
       - ./volumes/jenkins/start.sh:/opt/jenkins/start.sh:ro
       - ./volumes/jenkins/wgetrc:/home/jenkins/.wgetrc:ro
       - ./volumes/jenkins/war:/war
+      - ./volumes/admin-api-app-data:/admin-api-app-data
     profiles: ["jenkins"]
 
   # Scripts
