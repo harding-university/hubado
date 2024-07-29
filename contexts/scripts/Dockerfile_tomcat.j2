@@ -66,8 +66,8 @@ WORKDIR /build
             cat /tmp/footer*.groovy >> {{ app_name }}_configuration.groovy
     {% endif %}
 
-    COPY ["banner_configuration.groovy", "/tmp/"] && \
-        cat /tmp/banner_configuration.groovy >> banner_configuration.groovy
+    COPY ["banner_configuration.groovy", "/tmp/"]
+    RUN cat /tmp/banner_configuration.groovy >> banner_configuration.groovy
 
 {% endif %}
 
