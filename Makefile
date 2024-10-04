@@ -310,6 +310,7 @@ $(LOCAL_FILES): $$(@).dist Makefile.local
 	@sed -i "s/\^EMS_HOST\^/$(EMS_HOST)/" $@
 	@sed -i "s/\^CDCADMIN_PASSWORD\^/$(CDCADMIN_PASSWORD)/" $@
 	@sed -i "s/\^EVENTS_PASSWORD\^/$(EVENTS_PASSWORD)/" $@
+	@sed -i "s/\^COMMMGR_PASSWORD\^/$(COMMMGR_PASSWORD)/" $@
 	@sed -i "s/\^EMA_KEY\^/$(EMA_KEY)/" $@
 	@sed -i "s/\^API_USER_USER\^/$(API_USER_USER)/" $@
 	@sed -i "s/\^API_USER_PASSWORD\^/$(API_USER_PASSWORD)/" $@

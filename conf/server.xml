@@ -46,6 +46,26 @@
             removeAbandonedTimeout="60"
             testOnBorrow="true"
         />
+
+        <Resource
+            name="jdbc/bannerCommmgrDataSource"
+            auth="Container"
+            type="javax.sql.DataSource"
+            driverClassName="oracle.jdbc.OracleDriver"
+            url="jdbc:oracle:thin:@//${oracle.host}/${oracle.service_name}"
+            username="commmgr"
+            password="${banner9.commmgr.password}"
+            initialSize="25"
+            maxTotal="1000"
+            maxIdle="-1"
+            maxWaitMillis="30000"
+            connectionProperties="defaultRowPrefetch=100"
+            validationQuery="select 1 from dual"
+            accessToUnderlyingConnectionAllowed="true"
+            removeAbandonedOnBorrow="true"
+            removeAbandonedTimeout="60"
+            testOnBorrow="true"
+        />
     </GlobalNamingResources>
 
     <Service name="Catalina">

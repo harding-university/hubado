@@ -6,6 +6,12 @@ bannerSsbDataSource.url="jdbc:oracle:thin:@//${oracle.host}/${oracle.service_nam
 bannerSsbDataSource.username="${banner9.proxy.user}"
 bannerSsbDataSource.password="${banner9.proxy.password}"
 
+bannerCommmgrDataSource.jndiName="jdbc/bannerCommmgrDataSource"
+bannerCommmgrDataSource.driver="oracle.jdbc.OracleDriver"
+bannerCommmgrDataSource.url="jdbc:oracle:thin:@//${oracle.host}/${oracle.service_name}"
+bannerCommmgrDataSource.username="commmgr"
+bannerCommmgrDataSource.password="${banner9.commmgr.password}"
+
 banner.transactionTimeout = 600
 configJob {
     // Recommended default is every 1 hour starting at 00am, of every day - "0 0 */1 * * ?"
