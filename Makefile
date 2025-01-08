@@ -93,7 +93,6 @@ CONTEXTS_ADDITIONAL_PREREQS = \
 # corresponding .dist file, with variable substitution applied
 LOCAL_FILES = \
 	compose.yaml \
-	contexts/accessmgmt/Dockerfile \
 	contexts/bep/footer_bep.groovy \
 	contexts/eeamc/Dockerfile \
 	contexts/jenkins/Dockerfile \
@@ -107,6 +106,7 @@ LOCAL_FILES = \
 # These Dockerfiles will be built from the template Dockerfile for
 # Tomcat servers, contexts/scripts/Dockerfile_tomcat.j2
 TOMCAT_DOCKERFILES = \
+	contexts/accessmgmt/Dockerfile \
 	contexts/admincommon/Dockerfile \
 	contexts/appnav/Dockerfile \
 	contexts/bcm/Dockerfile \

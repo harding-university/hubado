@@ -1,6 +1,8 @@
-FROM openjdk:8 as builder
+FROM amazoncorretto:21 AS builder
 
 WORKDIR /build
+
+RUN yum install -y unzip
 
 {% if context in ['admincommon'] %}
     COPY ["BannerAdmin.war", "."]
@@ -15,6 +17,18 @@ WORKDIR /build
     RUN cat /tmp/footer*.properties >> config.properties && \
         sed -i "s/<session-timeout>60<\/session-timeout>/<session-timeout>\${banner9.session_timeout}<\/session-timeout>/" ../web.xml
     RUN sed -i '/<bean id="ticketValidator" class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">/,/^<\/bean>/s/Cas20ServiceTicketValidator/Saml11TicketValidator/;s/^<\/bean>$/<property name="tolerance" value="1000" \/>\n<\/bean>/g' ../applicationContext.xml
+
+{% elif context in ['accessmgmt'] %}
+    COPY ["BannerAccessMgmt.war", "."]
+    COPY ["BannerAccessMgmt.ws.war", "."]
+    RUN unzip BannerAccessMgmt.war -d BannerAccessMgmt && \
+        rm BannerAccessMgmt.war && \
+        unzip BannerAccessMgmt.ws.war -d BannerAccessMgmt.ws && \
+        rm BannerAccessMgmt.ws.war
+
+    WORKDIR /build/BannerAccessMgmt.ws/WEB-INF/classes/
+    COPY ["footer*.properties", "/tmp/"]
+    RUN cat /tmp/footer*.properties >> config.properties
 
 
 {% elif context in ['ema'] %}
@@ -72,7 +86,11 @@ WORKDIR /build
 {% endif %}
 
 
-FROM tomcat:9-jre8-openjdk
+{% if context in ['accessmgmt', 'admincommon', 'bpapi',] %}
+FROM tomcat:10.1-jre21
+{% else %}
+FROM tomcat:9-jre21
+{% endif %}
 
 ENV TZ={{ timezone }}
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -108,6 +126,12 @@ RUN useradd tomcat -u {{ hubado_host_uid }} && \
 
 {% if context == 'ema' %}
 RUN chown tomcat.tomcat /usr/local/tomcat/webapps/EllucianMessagingAdapter/WEB-INF/emsConfig.xml
+{% endif %}
+
+# For some reason, this jar causes an issue for these two
+# This is likely a band-aid fix that won't be needed in the future
+{% if context in ['bcm', 'studentapi',] %}
+RUN rm /usr/local/tomcat/webapps/{{ app_name }}/WEB-INF/lib/slf4j-reload4j-1.7.36.jar
 {% endif %}
 
 USER tomcat
