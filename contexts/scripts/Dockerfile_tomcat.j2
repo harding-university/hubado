@@ -130,7 +130,7 @@ RUN chown tomcat.tomcat /usr/local/tomcat/webapps/EllucianMessagingAdapter/WEB-I
 
 # For some reason, this jar causes an issue for these two
 # This is likely a band-aid fix that won't be needed in the future
-{% if context in ['bcm', 'studentapi',] %}
+{% if context in ['bcm',] %}
 RUN rm /usr/local/tomcat/webapps/{{ app_name }}/WEB-INF/lib/slf4j-reload4j-1.7.36.jar
 {% endif %}
 
