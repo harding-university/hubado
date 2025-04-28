@@ -121,6 +121,7 @@ services:
       EMS_PASSWORD: "^EMS_PASSWORD^"
     volumes:
       - ./conf/rabbitmq.conf:/etc/rabbitmq/conf.d/30-hubado.conf:ro
+      - ./volumes/rabbitmq:/var/lib/rabbitmq
     profiles: ["ethos"]
 
   bep:
