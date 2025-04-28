@@ -18,6 +18,9 @@ RUN yum install -y unzip
         sed -i "s/<session-timeout>60<\/session-timeout>/<session-timeout>\${banner9.session_timeout}<\/session-timeout>/" ../web.xml
     RUN sed -i '/<bean id="ticketValidator" class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">/,/^<\/bean>/s/Cas20ServiceTicketValidator/Saml11TicketValidator/;s/^<\/bean>$/<property name="tolerance" value="1000" \/>\n<\/bean>/g' ../applicationContext.xml
 
+    WORKDIR /build/BannerAdmin/WEB-INF/config/
+
+
 {% elif context in ['accessmgmt'] %}
     COPY ["BannerAccessMgmt.war", "."]
     COPY ["BannerAccessMgmt.ws.war", "."]
@@ -29,6 +32,8 @@ RUN yum install -y unzip
     WORKDIR /build/BannerAccessMgmt.ws/WEB-INF/classes/
     COPY ["footer*.properties", "/tmp/"]
     RUN cat /tmp/footer*.properties >> config.properties
+
+    WORKDIR /build/BannerAccessMgmt/WEB-INF/
 
 
 {% elif context in ['ema'] %}
@@ -79,6 +84,11 @@ RUN yum install -y unzip
         RUN echo >> {{ app_name }}_configuration.groovy && \
             cat /tmp/footer*.groovy >> {{ app_name }}_configuration.groovy
     {% endif %}
+
+    {% if context.endswith('api') %}
+        RUN sed -i "s/<property scope=\"context\" name=\"fileLoggingFormat\" value=\"log\"\/>/<property scope=\"context\" name=\"fileLoggingFormat\" value=\"console\"\/>/" logback.xml
+    {% endif %}
+    # RUN sed -i "s/<root level=\"error\">/<root level=\"debug\">/" logback.xml
 
     COPY ["banner_configuration.groovy", "/tmp/"]
     RUN cat /tmp/banner_configuration.groovy >> banner_configuration.groovy
