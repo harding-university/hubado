@@ -1,4 +1,8 @@
+{% if context in ['ema'] %}
+FROM amazoncorretto:17 AS builder
+{% else %}
 FROM amazoncorretto:21 AS builder
+{% endif %}
 
 WORKDIR /build
 
@@ -40,7 +44,7 @@ RUN yum install -y unzip
     COPY ["EllucianMessagingAdapter.zip", "."]
     RUN unzip EllucianMessagingAdapter.zip && \
         rm EllucianMessagingAdapter.zip && \
-        mv EllucianMessagingAdapter*/*.war EllucianMessagingAdapter.war && \
+        mv *.war EllucianMessagingAdapter.war && \
         rm -fr `find * -type d` && \
         unzip EllucianMessagingAdapter.war -d EllucianMessagingAdapter && \
         rm EllucianMessagingAdapter.war
@@ -98,6 +102,8 @@ RUN yum install -y unzip
 
 {% if context in ['accessmgmt', 'admincommon', 'bpapi',] %}
 FROM tomcat:10.1-jre21
+{% elif context in ['ema',] %}
+FROM tomcat:9-jre17
 {% else %}
 FROM tomcat:9-jre21
 {% endif %}
