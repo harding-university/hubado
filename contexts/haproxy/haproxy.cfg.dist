@@ -24,7 +24,6 @@ defaults
 frontend http
     bind :8080
     no log
-    #http-request use-service prometheus-exporter if { path /metrics } { src prometheus }
     redirect scheme https code 301
 
 
@@ -113,3 +112,13 @@ backend grafana
 
 backend redirect_appnav
     redirect location /applicationNavigator
+
+frontend metrics
+    bind :9101
+    no log
+    use_backend metrics_rabbitmq if { path /metrics/rabbitmq }
+
+backend metrics_rabbitmq
+    http-request deny unless { src ^METRICS_NETWORK^ }
+    http-request set-path /metrics
+    server rabbitmq rabbitmq:15692

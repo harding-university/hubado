@@ -95,6 +95,7 @@ LOCAL_FILES = \
 	compose.yaml \
 	contexts/bep/footer_bep.groovy \
 	contexts/eeamc/Dockerfile \
+	contexts/haproxy/haproxy.cfg \
 	contexts/jenkins/Dockerfile \
 	contexts/scripts/config.py \
 	contexts/scripts/Dockerfile \
@@ -316,6 +317,8 @@ $(LOCAL_FILES): $$(@).dist Makefile.local
 	@sed -i "s/\^API_USER_PASSWORD\^/$(API_USER_PASSWORD)/" $@
 	@sed -i "s/\^ETHOS_INTEGRATION_KEY\^/$(ETHOS_INTEGRATION_KEY)/" $@
 	@sed -i "s/\^ETHOS_STUDENT_KEY\^/$(ETHOS_STUDENT_KEY)/" $@
+	@sed -i "s/\^METRICS_BIND\^/$(METRICS_BIND)/" $@
+	@sed -i "s/\^METRICS_NETWORK\^/$(METRICS_NETWORK)/" $@
 
 
 # This builds Tomcat Dockerfiles with the Dockerfile_tomcat.j2 template
@@ -329,8 +332,8 @@ $(TOMCAT_DOCKERFILES): \
 
 # This creates the user that is used within the containers
 user:
-	sudo useradd -r $(HUBADO_HOST_USER) || true
-	sudo chown -R $(HUBADO_HOST_USER) volumes/
+	#sudo useradd -r $(HUBADO_HOST_USER) || true
+	#sudo chown -R $(HUBADO_HOST_USER) volumes/
 
 
 # vim: set noexpandtab sts=0:
