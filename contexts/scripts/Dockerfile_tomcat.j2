@@ -44,7 +44,7 @@ RUN yum install -y unzip
     COPY ["EllucianMessagingAdapter.zip", "."]
     RUN unzip EllucianMessagingAdapter.zip && \
         rm EllucianMessagingAdapter.zip && \
-        mv *.war EllucianMessagingAdapter.war && \
+        mv EllucianMessagingAdapter*/*.war EllucianMessagingAdapter.war && \
         rm -fr `find * -type d` && \
         unzip EllucianMessagingAdapter.war -d EllucianMessagingAdapter && \
         rm EllucianMessagingAdapter.war
