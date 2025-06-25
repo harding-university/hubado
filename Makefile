@@ -87,6 +87,11 @@ CONTEXTS_ADDITIONAL_PREREQS = \
 	contexts/ema/EllucianMessagingAdapter.zip \
 	contexts/integrationapi/footer_api.groovy \
 	contexts/studentapi/footer_api.groovy \
+	contexts/facss/footer_ssb9.groovy \
+	contexts/financess/footer_ssb9.groovy \
+	contexts/geneventss/footer_ssb9.groovy \
+	contexts/sss/footer_ssb9.groovy \
+	contexts/sturegss/footer_ssb9.groovy \
 
 # "Local" is the Hubado term for files generated from .dist template
 # files; files specified will automatically be created from a
