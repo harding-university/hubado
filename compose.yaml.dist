@@ -17,6 +17,7 @@ services:
       context: contexts/accessmgmt
     volumes:
       - ./volumes/tomcat-env:/tomcat-env
+      - ^PICTURES_PATH^:/pictures
     profiles: ["core"]
 
   admincommon:

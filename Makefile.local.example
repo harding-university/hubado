@@ -41,5 +41,7 @@ TIMEZONE = America/Chicago
 
 INSTITUTION_NAME = Hubado University
 
+PICTURES_PATH = \/mnt\/picures
+
 METRICS_BIND = 127.0.0.1:9101
 METRICS_NETWORK = 127.0.0.1\/32
