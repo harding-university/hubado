@@ -131,7 +131,7 @@ COPY --from=builder /build/ ./
 WORKDIR /usr/local/tomcat/
 COPY ["setenv.sh", "bin/setenv.sh"]
 
-RUN useradd tomcat -u {{ hubado_host_uid }} && \
+RUN useradd tomcat -mu {{ hubado_host_uid }} && \
     mkdir /usr/local/tomcat/build && \
     chown -R tomcat.tomcat /usr/local/tomcat/build && \
     chown -R tomcat.tomcat /usr/local/tomcat/logs && \
