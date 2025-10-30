@@ -86,6 +86,7 @@ CONTEXTS_ADDITIONAL_PREREQS = \
 	contexts/extz/xdb6.jar \
 	contexts/ema/EllucianMessagingAdapter.zip \
 	contexts/integrationapi/footer_api.groovy \
+	contexts/integrationapi/footer_integration_api.groovy \
 	contexts/studentapi/footer_api.groovy \
 	contexts/facss/footer_ssb9.groovy \
 	contexts/financess/footer_ssb9.groovy \

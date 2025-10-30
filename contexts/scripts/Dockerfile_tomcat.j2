@@ -20,7 +20,10 @@ RUN yum install -y unzip
     COPY ["footer*.properties", "/tmp/"]
     RUN cat /tmp/footer*.properties >> config.properties && \
         sed -i "s/<session-timeout>60<\/session-timeout>/<session-timeout>\${banner9.session_timeout}<\/session-timeout>/" ../web.xml
+{#
     RUN sed -i '/<bean id="ticketValidator" class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">/,/^<\/bean>/s/Cas20ServiceTicketValidator/Saml11TicketValidator/;s/^<\/bean>$/<property name="tolerance" value="1000" \/>\n<\/bean>/g' ../applicationContext.xml
+#}
+    RUN sed -i '/<bean id="ticketValidator" class="org.jasig.cas.client.validation.Saml11TicketValidator">/,/^<\/bean>/{s/Saml11TicketValidator/Cas20ServiceTicketValidator/;/property name="tolerance"/d}' ../applicationContext.xml
 
     WORKDIR /build/BannerAdmin/WEB-INF/config/
 
@@ -82,6 +85,10 @@ RUN yum install -y unzip
         # (the file may not end with a newline)
         RUN echo >> {{ app_name }}_configuration.groovy && \
             cat /tmp/footer_api.groovy >> {{ app_name }}_configuration.groovy
+	{% if context in ['integrationapi'] %}
+		RUN echo >> {{ app_name }}_configuration.groovy && \
+			cat /tmp/footer_integration_api.groovy >> {{ app_name }}_configuration.groovy
+	{% endif %}
     {% else %}
         # echo a newline to the .groovy file before the adding the footer
         # (the file may not end with a newline)
@@ -98,6 +105,17 @@ RUN yum install -y unzip
     RUN cat /tmp/banner_configuration.groovy >> banner_configuration.groovy
 
 {% endif %}
+
+{% if context == 'employee' %}
+
+RUN mkdir -p /employer/logos
+COPY hr_logo*.png /employer/logos
+#ADD https://www.harding.edu/_files/img/logos/ellucian/hr/harding-university.png /employer/logos/hr_logo_HU.png
+#ADD https://www.harding.edu/_files/img/logos/ellucian/hr/harding-place.png /employer/logos/hr_logo_HP.png
+#ADD ^LOGO_URL_1^ ^LOGO_FILENAME_1^
+#ADD ^LOGO_URL_2^ ^LOGO_FILENAME_2^
+{% endif %}
+
 
 
 {% if context in ['accessmgmt', 'admincommon', 'bpapi',] %}
@@ -146,15 +164,16 @@ RUN chown tomcat.tomcat /usr/local/tomcat/webapps/EllucianMessagingAdapter/WEB-I
 
 # For some reason, this jar causes an issue for these two
 # This is likely a band-aid fix that won't be needed in the future
-{% if context in ['bcm',] %}
-RUN rm /usr/local/tomcat/webapps/{{ app_name }}/WEB-INF/lib/slf4j-reload4j-1.7.36.jar
-{% endif %}
+# commenting out for now RS 06/20/2025
+#{% if context in ['bcm',] %}
+#RUN rm /usr/local/tomcat/webapps/{{ app_name }}/WEB-INF/lib/slf4j-reload4j-1.7.36.jar
+#{% endif %}
 
 USER tomcat
 
 ENV CATALINA_OPTS="-DBANNER_APP_CONFIG=/usr/local/tomcat/webapps/{{ app_name }}/WEB-INF/classes/banner_configuration.groovy"
 
-ENV CATALINA_OPTS="$CATALINA_OPTS -Doracle.jdbc.autoCommitSpecCompliant=false"
+ENV CATALINA_OPTS="$CATALINA_OPTS -Doracle.jdbc.autoCommitSpecCompliant=false -Duser.home=/home/tomcat"
 
 {% if context in ['appnav',] %}
     COPY ["limits.conf", "/etc/security/limits.conf"]
