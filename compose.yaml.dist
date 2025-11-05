@@ -18,6 +18,7 @@ services:
     volumes:
       - ./volumes/tomcat-env:/tomcat-env
       - ^PICTURES_PATH^:/pictures
+      -  ./volumes/employee-employer-logos:/employee-employer-logos
     profiles: ["core"]
 
   admincommon:

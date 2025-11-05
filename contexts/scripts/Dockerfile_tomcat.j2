@@ -106,18 +106,6 @@ RUN yum install -y unzip
 
 {% endif %}
 
-{% if context == 'employee' %}
-
-RUN mkdir -p /employer/logos
-COPY hr_logo*.png /employer/logos
-#ADD https://www.harding.edu/_files/img/logos/ellucian/hr/harding-university.png /employer/logos/hr_logo_HU.png
-#ADD https://www.harding.edu/_files/img/logos/ellucian/hr/harding-place.png /employer/logos/hr_logo_HP.png
-#ADD ^LOGO_URL_1^ ^LOGO_FILENAME_1^
-#ADD ^LOGO_URL_2^ ^LOGO_FILENAME_2^
-{% endif %}
-
-
-
 {% if context in ['accessmgmt', 'admincommon', 'bpapi',] %}
 FROM tomcat:10.1-jre21
 {% elif context in ['ema',] %}
