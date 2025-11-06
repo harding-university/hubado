@@ -325,6 +325,8 @@ $(LOCAL_FILES): $$(@).dist Makefile.local
 	@sed -i "s/\^ETHOS_STUDENT_KEY\^/$(ETHOS_STUDENT_KEY)/" $@
 	@sed -i "s/\^METRICS_BIND\^/$(METRICS_BIND)/" $@
 	@sed -i "s/\^METRICS_NETWORK\^/$(METRICS_NETWORK)/" $@
+	@sed -i "s/\^PICTURES_PATH\^/$(PICTURES_PATH)/" $@
+
 
 
 # This builds Tomcat Dockerfiles with the Dockerfile_tomcat.j2 template
