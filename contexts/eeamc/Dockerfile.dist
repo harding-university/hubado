@@ -1,6 +1,9 @@
-FROM openjdk:8 as builder
+FROM amazoncorretto:8 as builder
 
 WORKDIR /build
+
+RUN yum install -y unzip
+
 COPY ["ethosapimanagementcenter.war", "."]
 RUN unzip ethosapimanagementcenter.war -d ethosapimanagementcenter
 
