@@ -20,6 +20,7 @@ contexts/*/footer_*.groovy
 contexts/*/banner_configuration.groovy
 
 contexts/ema/EllucianMessagingAdapter.zip
+contexts/haproxy/haproxy.cfg
 contexts/scripts/config.py
 
 __pycache__/
