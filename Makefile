@@ -93,6 +93,8 @@ CONTEXTS_ADDITIONAL_PREREQS = \
 	contexts/geneventss/footer_ssb9.groovy \
 	contexts/sss/footer_ssb9.groovy \
 	contexts/sturegss/footer_ssb9.groovy \
+	contexts/sss/footer_messages.properties \
+        contexts/sturegss/footer_messages.properties \
 
 # "Local" is the Hubado term for files generated from .dist template
 # files; files specified will automatically be created from a
