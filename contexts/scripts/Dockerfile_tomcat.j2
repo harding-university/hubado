@@ -106,6 +106,17 @@ RUN yum install -y unzip
 
 {% endif %}
 
+{% if context in ['sturegss', 'sss'] %}
+    COPY ["footer_messages.properties", "/tmp/"]
+    RUN cat /tmp/footer_messages.properties >> messages.properties
+{% endif %}
+
+{% if context in ['general_ss', 'sturegss', 'sss'] %}
+    COPY ["footer_proxy_access.groovy", "/tmp/"]
+    RUN cat /tmp/footer_proxy_access.groovy >> {{ app_name }}_configuration.groovy
+{% endif %}
+
+
 {% if context in ['accessmgmt', 'admincommon', 'bpapi',] %}
 FROM tomcat:10.1-jre21
 {% elif context in ['ema',] %}
