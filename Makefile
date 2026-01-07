@@ -331,7 +331,8 @@ $(LOCAL_FILES): $$(@).dist Makefile.local
 	@sed -i "s/\^METRICS_BIND\^/$(METRICS_BIND)/" $@
 	@sed -i "s/\^METRICS_NETWORK\^/$(METRICS_NETWORK)/" $@
 	@sed -i "s/\^PICTURES_PATH\^/$(PICTURES_PATH)/" $@
-
+	@sed -i "s/\^BANNER8_SS_URL\^/$(BANNER8_SS_URL)/" $@
+	@sed -i "s/\^BANNER8_SS_LOCALE_URL\^/$(BANNER8_SS_LOCALE_URL)/" $@
 
 
 # This builds Tomcat Dockerfiles with the Dockerfile_tomcat.j2 template

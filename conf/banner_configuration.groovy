@@ -18,3 +18,6 @@ configJob {
     // Cron expression lesser than 30 mins will fall back to 30 mins.
     cronExpression = "*/30 * * * *"
 }
+
+banner8.SS.url="${banner8.ss.url}"
+banner8.SS.locale.url="${banner8.ss.locale.url}"

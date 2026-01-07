@@ -45,3 +45,6 @@ PICTURES_PATH = \/mnt\/picures
 
 METRICS_BIND = 127.0.0.1:9101
 METRICS_NETWORK = 127.0.0.1\/32
+
+BANNER8_SS_URL=https:\/\/ssb.example.edu\/bann\/
+BANNER8_SS_LOCALE_URL=['default' : 'https:\/\ssb.example.edu\/bann\/']
