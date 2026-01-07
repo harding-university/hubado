@@ -107,8 +107,8 @@ RUN yum install -y unzip
 {% endif %}
 
 {% if context in ['sturegss', 'sss'] %}
-    COPY ["footer_messages.properties", "/tmp/"]
-    RUN cat /tmp/footer_messages.properties >> messages.properties
+    COPY ["footer_messages*.properties", "/tmp/"]
+    RUN cat /tmp/footer_messages*.properties >> messages.properties
 {% endif %}
 
 {% if context in ['general_ss', 'sturegss', 'sss'] %}
