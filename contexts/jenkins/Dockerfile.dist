@@ -1,8 +1,8 @@
-FROM openjdk:11
-
-RUN cp -f /bin/bash /bin/sh
+FROM amazoncorretto:11
 
 WORKDIR /opt/jenkins
+
+RUN yum install -y shadow-utils wget
 
 RUN useradd -mr jenkins -u ^HUBADO_HOST_UID^
 RUN chown -R jenkins /opt/jenkins
