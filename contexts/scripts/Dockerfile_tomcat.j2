@@ -163,7 +163,7 @@ RUN chown tomcat.tomcat /usr/local/tomcat/webapps/EllucianMessagingAdapter/WEB-I
 
 {%if context == 'employee' %}
 #fixes defect PD0034354 that causes problems printing paystubs if the os user doesn't have write permissions on this file
-RUN chown :tomcat /usr/local/tomcat/webapps/EmployeeSelfService/WEB-INF/fop/payStub/payStub-styles-custom.xsl
+RUN chown tomcat /usr/local/tomcat/webapps/EmployeeSelfService/WEB-INF/fop/payStub/payStub-styles-custom.xsl
 {% endif %}
 
 # For some reason, this jar causes an issue for these two
